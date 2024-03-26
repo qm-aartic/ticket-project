@@ -9,7 +9,7 @@ const NavBar = () => {
       const jwt = localStorage.getItem("token");
       const user = jwtDecode(jwt);
       setLoggedUser(user);
-      // console.log(user);
+      //console.log(user);
     } catch (error) {}
   }, []);
   return (
@@ -56,6 +56,11 @@ const NavBar = () => {
                   <NavLink className="nav-link" to="/logout">
                     Logout
                   </NavLink>
+                  {loggedUser.isAdmin && (
+                    <NavLink className="nav-link" to="/users">
+                      Users
+                    </NavLink>
+                  )}
                   <button type="button" className="btn btn-primary">
                     {loggedUser.name}
                   </button>
