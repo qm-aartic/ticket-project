@@ -26,5 +26,3 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
-
-// /search/${encodeURIComponent(searchQuery)}
