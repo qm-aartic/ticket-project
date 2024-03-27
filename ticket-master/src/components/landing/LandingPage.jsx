@@ -3,6 +3,7 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const schema = z.object({
     email: z.string().min(5),
@@ -37,7 +38,7 @@ function LandingPage() {
                     <h1 className="text-5xl font-bold">You aren't signed in.</h1>
                     <p className="py-6">Please login to your University Account to continue to the Issues and Feedback System.</p>
                     <div className="divider"></div>
-                    <p className="py-6 ">Don't have an account?  <a className="link link-accent link-hover">Sign Up.</a></p>
+                    <p className="py-6 ">Don't have an account?  <Link to="/signup" className="link link-accent link-hover">Sign Up.</Link></p>
                 </div>
                 <div className="card shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
                     <form className="card-body" onSubmit={handleSubmit(onSubmit)}>

@@ -6,6 +6,7 @@ import Header from "./components/header/Header";
 import LandingPage from "./components/landing/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
 import FAQ from "./components/faq/FAQ";
+import SignUp from "./components/signup/SignUp";
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState("");
@@ -22,6 +23,7 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
+          <Route path="/signup" element={<SignUp />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/logout" element={<Logout />} />
           {!loggedUser && (
