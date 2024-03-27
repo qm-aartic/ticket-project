@@ -22,7 +22,8 @@ app.use('/api/auth',auth);
 mongoose.connect('mongodb+srv://{USERNAME}:{PASSWORD}@cluster0.tdsacwm.mongodb.net/ticket')
     .then(() => {console.log('connected to MongoDB...')})
     .catch(err => {console.log('could not connect to MongoDB...', err)});
-    
+
+
 const port = 3000;
 
 app.listen(port, () => {console.log('server is running')});

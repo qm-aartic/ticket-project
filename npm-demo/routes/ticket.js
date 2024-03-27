@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const {Ticket, validateTicket} = require('../models/ticket');
 const multer = require('multer');
+const nodemailer = require('nodemailer');
+const {User, validateUser} = require('../models/users');
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -114,6 +116,32 @@ router.put('/:id', async (req, res) => {
   } catch (error) {
     if (!updatedTicket) return res.status(404).send("Ticket with given ID not found");
   }
+// MAILHOG START HERE
+  const findUser = await User.findById(req.body?.userId);
+  console.log("findUser " +findUser);
+  // nodemailer is running here
+  const transporter = nodemailer.createTransport({  
+    host: 'localhost',
+    port: 1025,
+    secure: false,
+  })
+
+  const mailOptions = {
+    from: 'admin@mailhog.com',
+    to: findUser.email,
+    subject: 'test-email',
+    text: req.body?.userName + " your ticket has been " + req.body?.status
+  }
+
+  transporter.sendMail(mailOptions, (error,info) => {
+    if (error) {
+      console.log("error", error);
+    } else {
+      console.log("email sent" , info.response);
+    }
+})
+
+// MAILHOG END
   res.send(updatedTicket);
 });
 

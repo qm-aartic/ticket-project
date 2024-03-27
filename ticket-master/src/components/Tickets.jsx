@@ -215,8 +215,8 @@ const Tickets = () => {
                   </td>
                   <td>{ticket.status}</td>
 
-                  {loggedUser.role === "admin" ||
-                  ticket.status === "Pending" ? (
+                  {ticket.status === "Pending" ||
+                  loggedUser.role !== "Student" ? (
                     <td>
                       <button
                         onClick={() => navigate(`/ticket/${ticket._id}`)}
