@@ -9,6 +9,8 @@ import ProgressCard from "./ProgressCard";
 
 const Dashboard = () => {
 
+    //TODO: Ensure responsiveness
+
     const [loggedUser, setLoggedUser] = useState("");
 
     useEffect(() => {
@@ -38,8 +40,8 @@ const Dashboard = () => {
                         <SmallCard icon={<AiOutlineCalendar size={80} color="#0d3273" />} title={"Archived"} value={2} />
                     </div>
                     <div className="flex-grow flex gap-6">
-                        <ProgressCard stage="Pending" type="EC" title="Unable to Submit Assessment"/>
-                        <ProgressCard stage="Pending" type="Issue" title="Unenroled from all QMPlus modules..." />
+                        <ProgressCard stage="In Progress" type="EC" title="Unable to Submit Assessment"/>
+                        <ProgressCard stage="Completed" type="Issue" title="Unenroled from all QMPlus modules..." />
                     </div>
                 </div>
             </section>
