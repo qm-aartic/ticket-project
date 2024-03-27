@@ -19,8 +19,7 @@ app.use('/api/auth',auth);
 
 
 // connection to MongoDB
-//Check your Mongo Atlas Link and update the below connection string
-mongoose.connect('mongodb+srv://USER_NAME:PASSWORD@cluster0.tdsacwm.mongodb.net/ticket')
+mongoose.connect('mongodb+srv://{USERNAME}:{PASSWORD}@cluster0.tdsacwm.mongodb.net/ticket')
     .then(() => {console.log('connected to MongoDB...')})
     .catch(err => {console.log('could not connect to MongoDB...', err)});
     

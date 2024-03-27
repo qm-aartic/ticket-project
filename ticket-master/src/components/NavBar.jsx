@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import SearchTicket from "./SearchTicket";
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const [loggedUser, setLoggedUser] = useState("");
+
   useEffect(() => {
     try {
       const jwt = localStorage.getItem("token");
@@ -12,13 +15,12 @@ const NavBar = () => {
       // console.log(user);
     } catch (error) {}
   }, []);
+
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
-          <NavLink className="navbar-brand" to="/">
-            Navbar
-          </NavLink>
+          <NavLink className="navbar-brand">Navbar</NavLink>
           <button
             className="navbar-toggler"
             type="button"
@@ -30,12 +32,35 @@ const NavBar = () => {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div className="navbar-nav">
-              <NavLink className="nav-link active" aria-current="page" to="/">
-                Home
-              </NavLink>
 
+          <div
+            className="collapse navbar-collapse justify-content-between"
+            id="navbarNav"
+          >
+            <ul className="navbar-nav">
+              {loggedUser && (
+                <>
+                  <NavLink
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/"
+                  >
+                    Home
+                  </NavLink>
+                  <NavLink
+                    className="nav-link active"
+                    aria-current="page"
+                    to="/ticket/resolved"
+                  >
+                    Resolved-Tickets
+                  </NavLink>
+                  {/* <NavLink className="nav-link" to="/newTicket">
+                    Create Ticket
+                  </NavLink> */}
+                </>
+              )}
+            </ul>
+            <ul className="navbar-nav">
               {!loggedUser && (
                 <>
                   <NavLink className="nav-link" to="/login">
@@ -46,24 +71,32 @@ const NavBar = () => {
                   </NavLink>
                 </>
               )}
-
               {loggedUser && (
                 <>
-                  <NavLink className="nav-link" to="/newTicket">
-                    Create Ticket
-                  </NavLink>
-
-                  <NavLink className="nav-link" to="/logout">
-                    Logout
-                  </NavLink>
                   <button type="button" className="btn btn-primary">
                     {loggedUser.name}
                   </button>
+                  <NavLink className="nav-link" to="/logout">
+                    Logout
+                  </NavLink>
                 </>
               )}
-            </div>
+
+              {loggedUser.role === "admin" && (
+                <NavLink className="nav-link" to="/users">
+                  Users
+                </NavLink>
+              )}
+
+              {/* {loggedUser.role === "admin" && (
+                <NavLink className="nav-link" to="/viewuser">
+                  View Users
+                </NavLink>
+              )} */}
+            </ul>
           </div>
         </div>
+        {/* </div> */}
       </nav>
     </>
   );

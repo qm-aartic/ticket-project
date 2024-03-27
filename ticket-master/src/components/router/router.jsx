@@ -5,6 +5,11 @@ import Register from "../Register";
 import Logout from "../Logout";
 import InputTicket from "../InputTicket";
 import UpdateTicket from "../UpdateTicket";
+import ReadTicket from "../ReadTicket";
+import SearchTicket from "../SearchTicket";
+import ViewUser from "../ViewUser";
+import UpdateUser from "../UpdateUser";
+import SearchUser from "../SearchUser";
 
 const router = createBrowserRouter([
   { path: "/", element: <Tickets /> },
@@ -13,6 +18,13 @@ const router = createBrowserRouter([
   { path: "/logout", element: <Logout /> },
   { path: "/newTicket", element: <InputTicket /> },
   { path: "/ticket/:id", element: <UpdateTicket /> },
+  { path: "/ticket/read/:id", element: <ReadTicket /> },
+  { path: "/ticket/search/:title", element: <SearchTicket /> },
+  { path: "/viewuser", element: <ViewUser /> },
+  { path: "/updateUser/:id", element: <UpdateUser /> },
+  { path: "/ticket/user/:name", element: <SearchUser /> },
 ]);
 
 export default router;
+
+// /search/${encodeURIComponent(searchQuery)}

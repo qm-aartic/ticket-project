@@ -11,6 +11,8 @@ const ticketSchema = new mongoose.Schema({
     date: {type: Date, default: Date.now},
     fileName: {type: String, required: false},
     category: {type: String, required: false},
+    department: {type: String, required: false},
+    module: {type: String, required: false},
     priority: {type: String, required: false},
     adminComments: {type: String, required: false},
     
@@ -43,6 +45,8 @@ function validateTicket(ticket){
         desc: Joi.string().min(3).required(),
         userId: Joi.string().min(5).required(),
         category: Joi.string().min(2).required(),
+        department: Joi.string(),
+        module: Joi.string(),
         priority: Joi.string().min(2).required(),
         userName: Joi.string().min(2).required(),
         status: Joi.string().min(2).required(),

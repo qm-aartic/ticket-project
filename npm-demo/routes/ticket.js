@@ -42,6 +42,31 @@ router.get('/:id', async (req,res) => {
   res.send(findTicket);
 })
 
+router.get('/:uid/:role?/:department?', async (req,res) => {
+  let tickets;
+  if (req.params.role === 'admin'){
+    tickets = await Ticket.find();
+  } else if (req.params.role === 'staff'){
+    tickets = await Ticket.find({category: 'service'});
+  } else if (req.params.role === 'lecturer' && req.params.department){
+    const query = {
+      // or statement similar to SQL
+      $or: [
+        {department: req.params.department, category: 'ec'},
+        {category: 'service'},
+        {userId: req.params.uid}
+      ]
+    }
+    tickets = await Ticket.find(query);
+  } else {
+    // user is student
+    console.log("logged in as a student");
+    tickets = await Ticket.find({userId: req.params.uid});
+
+  }
+  res.send(tickets);
+})
+
 router.post('/', upload.single('fileName'), async (req,res) => {
     console.log(req.body);
     const {error} = validateTicket(req.body);
@@ -53,6 +78,8 @@ router.post('/', upload.single('fileName'), async (req,res) => {
         userId: req.body.userId,
         userName: req.body.userName,
         category: req.body.category,
+        department: req.body.department,
+        module: req?.body?.module,
         priority: req.body.priority,
         status: req.body.status,
         fileName: req?.file?.path ? "http://localhost:3000/" + req.file.path : ""
