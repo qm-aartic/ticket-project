@@ -21,6 +21,7 @@ const NavBar = () => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <NavLink className="navbar-brand">Navbar</NavLink>
+          
           <button
             className="navbar-toggler"
             type="button"
