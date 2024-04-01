@@ -7,6 +7,8 @@ import LandingPage from "./components/landing/LandingPage";
 import Dashboard from "./components/dashboard/Dashboard";
 import FAQ from "./components/faq/FAQ";
 import SignUp from "./components/signup/SignUp";
+import CreateTicket from './components/createticket/CreateTicket'; 
+import TicketCreated from './components/createticket/TicketCreated';
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState("");
@@ -23,6 +25,9 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
+          <Route path='/create-ticket' element={<CreateTicket />} />
+          <Route path='/ticket-created' element={<TicketCreated />} />
+
           <Route path="/signup" element={<SignUp />} />
           <Route path="/faq" element={<FAQ />} />
           <Route path="/logout" element={<Logout />} />
