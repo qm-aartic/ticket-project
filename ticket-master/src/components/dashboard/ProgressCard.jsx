@@ -33,7 +33,7 @@ const ProgressCard = ({stage="Pending", type="EC", title="Loading..."}) => {
                     <p className="text-md font-semibold text-center text-gray-500 self-center">{stage}</p>
                 </div>
                 <div>
-                    <h2 className='card-title text-xl font-bold text-primary self-center max-w-64'>{title}</h2>
+                    <h2 className='card-title text-xl font-bold text-primary self-center line-clamp-4 max-w-20'>{title}</h2>
                 </div>
             </div>
         </div>

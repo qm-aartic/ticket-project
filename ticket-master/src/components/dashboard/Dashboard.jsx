@@ -55,8 +55,17 @@ const Dashboard = () => {
                     <SmallCard title='Archived' value={0} icon={<AiOutlineCalendar size={40} color='#0d3273' />} />
                 </div>
                 <div className='flex justify-evenly w-full'>
-                    <ProgressCard />
-                    <ProgressCard />
+                    {tickets != null && tickets.length > 0 && tickets[0] != null && tickets[0].status != null && <ProgressCard 
+                    stage={tickets[0].status}
+                    title={tickets[0].title}
+                    type={tickets[0].category === "service" ? "EC" : "Service"}
+                    />}
+                    
+                    {tickets != null && tickets.length > 1 && tickets[1] != null && tickets[1].status != null && <ProgressCard 
+                    stage={tickets[1].status}
+                    title={tickets[1].title}
+                    type={tickets[1].category === "service" ? "EC" : "Service"}
+                    />}
                 </div>
             </div>
         </section>
