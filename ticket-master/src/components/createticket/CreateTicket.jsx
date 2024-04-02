@@ -19,7 +19,7 @@ const CreateTicket = () => {
                     style={{
                         backgroundColor: selectedTab === 'lab' ? '#0D3273' : 'transparent',
                         color: selectedTab === 'lab' ? '#ffffff' : '#0D3273',
-                        
+
                     }}
                     onClick={() => handleTabChange('lab')}
                 >

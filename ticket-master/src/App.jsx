@@ -9,6 +9,10 @@ import FAQ from "./components/faq/FAQ";
 import SignUp from "./components/signup/SignUp";
 import CreateTicket from './components/createticket/CreateTicket'; 
 import TicketCreated from './components/createticket/TicketCreated';
+import Services from "./components/service-status/Services";
+import Tickets from "./components/legacy/Tickets";
+import InputTicket from "./components/legacy/InputTicket";
+import { Footer } from "./components/footer/Footer";
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState("");
@@ -25,8 +29,14 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
+          {/* TESTING, DELETEME! */}
+          <Route path='/tickets' element={<Tickets />} />
+          <Route path='newTicket' element={<InputTicket />} />
+          {/* //////////////////// */}
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/ticket-created' element={<TicketCreated />} />
+
+          <Route path='/services' element={<Services />} />
 
           <Route path="/signup" element={<SignUp />} />
           <Route path="/faq" element={<FAQ />} />
@@ -36,6 +46,7 @@ const App = () => {
           {loggedUser && (
           <Route path="/" element={<Dashboard />} />)}
         </Routes>
+        <Footer />
       </Router>
     </>
   );
