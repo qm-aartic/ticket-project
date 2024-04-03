@@ -10,9 +10,10 @@ import SignUp from "./components/signup/SignUp";
 import CreateTicket from './components/createticket/CreateTicket'; 
 import TicketCreated from './components/createticket/TicketCreated';
 import Services from "./components/service-status/Services";
-import Tickets from "./components/legacy/Tickets";
 import InputTicket from "./components/legacy/InputTicket";
 import { Footer } from "./components/footer/Footer";
+import Archive from "./components/ticketdisplay/archive/Archive";
+import Tickets from "./components/ticketdisplay/ticket/Tickets";
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState("");
@@ -30,9 +31,12 @@ const App = () => {
         <Header />
         <Routes>
           {/* TESTING, DELETEME! */}
-          <Route path='/tickets' element={<Tickets />} />
           <Route path='newTicket' element={<InputTicket />} />
           {/* //////////////////// */}
+
+          <Route path='/archive' element={<Archive />} />
+          <Route path='/tickets' element={<Tickets />} />
+
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/ticket-created' element={<TicketCreated />} />
 
