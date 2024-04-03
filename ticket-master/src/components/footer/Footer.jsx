@@ -2,7 +2,7 @@
 
 export const Footer = () => {
     return (
-        <footer className="footer hidden lg:grid p-10 bg-neutral text-neutral-content mt-[8.4vh]">
+        <footer className="footer hidden lg:grid p-10 bg-neutral text-neutral-content max-w-[100vw] overflow-hidden">
             <nav>
                 <h6 className="footer-title">Copyright</h6>
                 <p>This is an academic project.<br></br>Please do not distribute or contribute</p>

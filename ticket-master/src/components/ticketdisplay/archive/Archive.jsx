@@ -39,7 +39,7 @@ function Archive() {
     return (
         <>
                 <DisplayHeader isArchive={true} />
-            <section className='min-h-screen py-10 px-40 flex flex-col gap-10'>
+            <section className='min-h-[80vh] py-10 px-40 flex flex-col gap-10'>
                 {tickets.map((ticket) => (
                     <Ticket
                         title={ticket.title}

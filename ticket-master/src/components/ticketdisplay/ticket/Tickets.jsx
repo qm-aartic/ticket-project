@@ -38,8 +38,8 @@ function Tickets() {
 
     return (
         <>
-                <DisplayHeader isArchive={false} />
-            <section className='min-h-screen py-10 px-40 flex flex-col gap-10'>
+            <DisplayHeader isArchive={false} />
+            <section className='min-h-[80vh] py-10 px-40 flex flex-col gap-10'>
                 {tickets.map((ticket) => (
                     <Ticket
                         title={ticket.title}

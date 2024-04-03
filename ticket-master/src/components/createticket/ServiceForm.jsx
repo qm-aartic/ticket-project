@@ -64,7 +64,7 @@ const ServiceForm = () => {
     };
 
     return (
-        <div className="flex justify-center items-center min-h-screen bg-white pt-12">
+        <div className="flex justify-center items-center min-h-[70vh] bg-white">
             <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100">
                 {/* heading for page */}
                 <h3 className="card-title text-center pt-7 pl-10">Report Service Issue</h3>

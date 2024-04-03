@@ -5,7 +5,7 @@ function Ticket({title="No Title Provided", status = "Approved", type = "EC", re
     return (
         <div className="card bg-base-100 shadow-xl h-40">
             <div className="flex justify-between items-start p-0 min-h-full">
-                <div className="max-w-40 card-body cursor-pointer flex flex-row justify-between items-center min-h-full gap-10 bg-primary rounded-[1rem_0_0_1rem]">
+                <div className="max-w-80 card-body cursor-pointer flex flex-row justify-between items-center min-h-full gap-10 bg-primary rounded-[1rem_0_0_1rem]">
                     <h2 className='card-title text-xl font-bold text-center text-white self-center line-clamp-3'>{title}</h2>
                 </div>
                 <div className="card-body flex-row max-w-full justify-evenly py-8">
