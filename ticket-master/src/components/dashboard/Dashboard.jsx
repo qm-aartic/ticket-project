@@ -55,17 +55,24 @@ const Dashboard = () => {
                     <SmallCard title='Archived' value={0} icon={<AiOutlineCalendar size={40} color='#0d3273' />} />
                 </div>
                 <div className='flex justify-evenly w-full'>
-                    {tickets != null && tickets.length > 0 && tickets[0] != null && tickets[0].status != null && <ProgressCard 
+
+                {tickets != null && tickets.length > 0 && tickets[0] != null && tickets[0].status != null ? <ProgressCard 
                     stage={tickets[0].status}
                     title={tickets[0].title}
-                    type={tickets[0].category === "service" ? "EC" : "Service"}
-                    />}
-                    
+                    type={tickets[0].category === "service" ? "EC" : "Service" }/>: <div className='card bg-base-100 shadow-xl flex justify-between items-center'>
+                    <div className='card-body cursor-pointer flex flex-row justify-between items-center gap-10 max-w-full'>
+                        <h2 className='card-title text-xl font-bold text-primary self-center line-clamp-4 '>Nothing to show here.</h2>
+                        <p>More information will be displayed when you create more tickets.</p>
+                        </div></div>
+                    }
+
                     {tickets != null && tickets.length > 1 && tickets[1] != null && tickets[1].status != null && <ProgressCard 
                     stage={tickets[1].status}
                     title={tickets[1].title}
                     type={tickets[1].category === "service" ? "EC" : "Service"}
                     />}
+                    
+                    
                 </div>
             </div>
         </section>
