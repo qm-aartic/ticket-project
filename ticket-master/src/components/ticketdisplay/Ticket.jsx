@@ -19,7 +19,7 @@ function Ticket({title="No Title Provided", status = "Approved", type = "EC", re
                         <h2 className="card-title font-light text-primary">
                             Type:
                         </h2>
-                        <p>{type}</p>
+                        <p className='capitalize'>{type}</p>
                     </div>
                     <div className='flex flex-col items-center'>
                         <h2 className="card-title font-light text-primary text-center">

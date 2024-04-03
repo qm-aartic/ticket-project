@@ -8,7 +8,6 @@ import { IoTimerOutline } from "react-icons/io5";
 import { AiOutlineCalendar } from "react-icons/ai";
 import ProgressCard from "./ProgressCard";
 import axios from "axios";
-import { get } from 'lodash';
 
 const Dashboard = () => {
 
@@ -22,11 +21,11 @@ const Dashboard = () => {
 
     async function getTickets() {
         const { data } = await axios.get("http://localhost:3000/api/ticket");
-        setTickets(data.filter((ticket) => ticket.userId === loggedUser._id));
-        setIssues(data.filter((ticket) => ticket.status !== "archived" && ticket.category === "service" && ticket.userId === loggedUser._id));
-        setEc(data.filter((ticket) => ticket.status !== "archived" && ticket.category === "ec"  && ticket.priority !== "high" && ticket.userId === loggedUser._id));
-        setUrgentEc(data.filter((ticket) => ticket.status !== "archived" && ticket.category === "ec" && ticket.priority === "high" && ticket.userId === loggedUser._id));
-        setArchived(data.filter((ticket) => ticket.status === "archived" && ticket.userId === loggedUser._id));
+        setTickets(data.filter((ticket) => ticket.status !== "Archived" && ticket.userId === loggedUser._id));
+        setIssues(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "service" && ticket.userId === loggedUser._id));
+        setEc(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "ec"  && ticket.priority !== "high" && ticket.userId === loggedUser._id));
+        setUrgentEc(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "ec" && ticket.priority === "high" && ticket.userId === loggedUser._id));
+        setArchived(data.filter((ticket) => ticket.status === "Archived" && ticket.userId === loggedUser._id));
     }
 
     //TODO: Ensure responsiveness

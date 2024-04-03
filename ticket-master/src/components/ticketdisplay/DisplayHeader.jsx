@@ -1,6 +1,11 @@
-import React from 'react';
+import { useContext } from "react";
+import { FaPlus } from "react-icons/fa";
+import { FilterContext } from "./FilterContextProvider";
 
 const DisplayHeader = ({ isArchive }) => {
+
+    const { filter, setFilter } = useContext(FilterContext);
+
     return (
         <div className="navbar bg-[#0a1324] text-white px-0 lg:px-28 py-4">
             <div className="navbar-start">
@@ -21,13 +26,20 @@ const DisplayHeader = ({ isArchive }) => {
             </div>
             <div className="navbar-center hidden lg:flex">
                 <ul className="menu menu-horizontal px-1">
-                    <li><a>All Tickets</a></li>
-                    <li><a>View Issues</a></li>
-                    <li><a>View EC</a></li>
-
+                    <div className="join">
+                        <form>
+                            {filter === "All Tickets" ? <input className="join-item btn" type="radio" name="options" aria-label="All Tickets" onChange={() => setFilter("All Tickets")} defaultChecked/>
+                             : <input className="join-item btn" type="radio" name="options" aria-label="All Tickets" onChange={() => setFilter("All Tickets")} />}
+                            {filter === "View Issues" ? <input className="join-item btn" type="radio" name="options" aria-label="View Issues" onChange={() => setFilter("View Issues")} defaultChecked />
+                             : <input className="join-item btn" type="radio" name="options" aria-label="View Issues" onChange={() => setFilter("View Issues")} />}
+                            {filter === "View EC" ? <input className="join-item btn" type="radio" name="options" aria-label="View EC" onChange={() => setFilter("View EC")} defaultChecked/>
+                             : <input className="join-item btn" type="radio" name="options" aria-label="View EC" onChange={() => setFilter("View EC")} />}
+                        </form>
+                    </div>
                 </ul>
             </div>
             <div className="navbar-end">
+                {!isArchive && <a href='/create-ticket' className="btn hover:bg-primary btn-outline text-white"> <FaPlus />New Ticket</a>}
             </div>
         </div>
     );
