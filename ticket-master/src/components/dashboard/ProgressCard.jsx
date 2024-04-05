@@ -26,16 +26,13 @@ const ProgressCard = ({stage="Pending", type="EC", title="Loading..."}) => {
     }
 
     return (
-        <div className='card bg-base-200 flex justify-between items-center '>
-            <div className='card-body flex flex-row justify-between items-center gap-10 min-w-full'>
-                <div className={`radial-progress ${color}`} style={{ "--value": percentage, "--size": "10rem", "--thickness": "10px" }} role="progressbar">
-                    <h3 className="text-xl font-bold text-primary text-center self-center">Status:</h3>
-                    <p className="text-md font-semibold text-center text-gray-500 self-center">{stage}</p>
+        <div className='card bg-base-100 max-w-[48%] shadow-lg'>
+            <div className='card-body flex flex-col xl:flex-row justify-between items-center min-w-full'>
+                <div className={`radial-progress ${color}`} style={{ "--value": percentage, "--size": "6rem", "--thickness": "6px" }} role="progressbar">
+                    <h3 className="text-md font-bold text-primary text-center">Status:</h3>
+                    <p className="text-sm font-semibold text-center text-gray-500">{stage}</p>
                 </div>
-                <div className='divider divider-vertical min-h-full'></div>
-                <div>
-                    <h2 className='card-title text-xl font-bold text-primary line-clamp-3 '>{title}</h2>
-                </div>
+                <h2 className='card-title text-lg font-bold text-primary line-clamp-3 max-w-[50%]'>{title}</h2>
             </div>
         </div>
     );
