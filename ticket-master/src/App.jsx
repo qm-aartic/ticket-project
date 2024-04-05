@@ -15,6 +15,8 @@ import { Footer } from "./components/footer/Footer";
 import Archive from "./components/ticketdisplay/archive/Archive";
 import Tickets from "./components/ticketdisplay/ticket/Tickets";
 import FilterContextProvider from "./components/ticketdisplay/FilterContextProvider";
+import ViewTicket from "./components/viewticket/ViewTicket";
+
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState("");
@@ -35,13 +37,14 @@ const App = () => {
           <Route path='newTicket' element={<InputTicket />} />
           {/* //////////////////// */}
 
+          <Route path='/view-ticket' element={<ViewTicket />} />
+
           <Route path='/archive' element={<FilterContextProvider children={<Archive />} />} />
           <Route path='/tickets' element={<FilterContextProvider children={<Tickets />} />} />
 
+
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/ticket-created' element={<TicketCreated />} />
-
-          <Route path='/services' element={<Services />} />
 
           <Route path="/signup" element={<SignUp />} />
           <Route path="/faq" element={<FAQ />} />
@@ -51,7 +54,6 @@ const App = () => {
           {loggedUser && (
           <Route path="/" element={<Dashboard />} />)}
         </Routes>
-        <Footer />
       </Router>
     </>
   );

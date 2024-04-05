@@ -35,9 +35,12 @@ function Ticket({title="No Title Provided", status = "Approved", type = "EC", fe
                     </div>
                 </div>
                 <div className="card-actions justify-end justify-self-end self-center pr-10">
+                        <a href="/view-ticket">
                         <button className="btn btn-circle btn-outline btn-primary">
                             <FaChevronRight />
                         </button>
+                        </a>
+                        
                     </div>
             </div>
         </div>
