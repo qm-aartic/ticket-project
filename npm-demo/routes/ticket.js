@@ -84,6 +84,7 @@ router.post('/', upload.single('fileName'), async (req,res) => {
         module: req?.body?.module,
         priority: req.body.priority,
         status: req.body.status,
+        reopenCount: 0,
         fileName: req?.file?.path ? "http://localhost:3000/" + req.file.path : ""
         
     });
@@ -111,6 +112,8 @@ router.put('/:id', async (req, res) => {
       priority: req.body?.priority,
       status: req.body?.status,
       adminComments: req.body?.adminComments,
+      reopenCount: req.body?.reopenCount
+     
 
     }, {new: true});
   } catch (error) {

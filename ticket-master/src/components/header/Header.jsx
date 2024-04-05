@@ -53,7 +53,7 @@ function Header() {
             <div className="navbar-end hidden lg:flex mr-20">
                 <ul className="menu menu-horizontal px-1 items-center flex">
                     <li><NavLink to="/faq">FAQ</NavLink></li>
-                    <li><NavLink to="/services">Services</NavLink></li>
+                    {loggedUser && <li><NavLink to="/services">Services</NavLink></li>}
 
                     {!loggedUser && (
                         <><div className="w-5"></div><li><NavLink to="/" className="btn bg-white px-8">Sign In</NavLink></li></>)}

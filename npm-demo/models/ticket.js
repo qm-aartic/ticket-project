@@ -15,6 +15,8 @@ const ticketSchema = new mongoose.Schema({
     module: {type: String, required: false},
     priority: {type: String, required: false},
     adminComments: {type: String, required: false},
+    reopenCount: {type: Number, required: true}
+    
     
 
 
@@ -50,7 +52,8 @@ function validateTicket(ticket){
         priority: Joi.string().min(2).required(),
         userName: Joi.string().min(2).required(),
         status: Joi.string().min(2).required(),
-        adminComments: Joi.string()
+        adminComments: Joi.string(),
+        reopenCount: Joi.number().integer().required()
        
     }
 
