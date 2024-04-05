@@ -35,8 +35,7 @@ const Login = () => {
 
   return (
     <>
-      <div>
-        <NavBar />
+      <div className="container justify-content-center align-items-center">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-3">
             <label htmlFor="email" className="form-label">
@@ -46,7 +45,7 @@ const Login = () => {
               {...register("email")}
               id="email"
               type="email"
-              className="form-control"
+              className="form-control "
             />
             {errors.email && (
               <p className="text-danger">{errors.email.message}</p>
@@ -60,7 +59,7 @@ const Login = () => {
               {...register("password")}
               id="password"
               type="password"
-              className="form-control"
+              className="form-control "
             />
             {errors.password && (
               <p className="text-danger">{errors.password.message}</p>
