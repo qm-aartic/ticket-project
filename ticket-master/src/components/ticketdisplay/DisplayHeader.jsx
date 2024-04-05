@@ -1,10 +1,16 @@
 import { useContext } from "react";
 import { FaPlus } from "react-icons/fa";
 import { FilterContext } from "./FilterContextProvider";
+import { SearchContext } from "./FilterContextProvider";
 
 const DisplayHeader = ({ isArchive }) => {
 
     const { filter, setFilter } = useContext(FilterContext);
+    const { search, setSearch } = useContext(SearchContext);
+
+    function handleSearchChange(e) {
+        setSearch(e.target.value);
+    }
 
     return (
         <div className="navbar bg-[#0a1324] text-white px-0 lg:px-28 py-4">
@@ -38,7 +44,8 @@ const DisplayHeader = ({ isArchive }) => {
                     </div>
                 </ul>
             </div>
-            <div className="navbar-end">
+            <div className="navbar-end gap-4">
+            <input type="text" placeholder="Search Tickets" className="input input-bordered w-full max-w-xs text-gray-700" onChange={handleSearchChange} />
                 {!isArchive && <a href='/create-ticket' className="btn hover:bg-primary btn-outline text-white"> <FaPlus />New Ticket</a>}
             </div>
         </div>

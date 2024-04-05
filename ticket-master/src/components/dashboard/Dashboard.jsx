@@ -50,14 +50,14 @@ const Dashboard = () => {
                     
                     <div className="flex flex-col justify-between items-start row-span-2">
                         <div className="flex flex-col gap-6">
-                        <h1 className="card-title text-primary text-2xl font-bold">Dashboard</h1>
+                        <h1 className="card-title text-primary text-2xl font-medium">Dashboard</h1>
                         <h2 className="text-gray-600">Welcome back, {loggedUser.name}</h2>
                         </div>
                         <a href="/create-ticket" className="btn btn-primary text-white"><FaPlus/>Create Ticket</a>
                     </div>
 
                     <div className='bg-base-200 rounded-xl flex flex-col gap-8 items-center p-4  shadow-inner'>
-                        <h2 className="card-title text-primary text-xl font-black text-right self-end hidden lg:flex">OVERVIEW</h2>
+                        <h2 className="card-title text-primary text-xl font-medium text-right self-end hidden lg:flex">OVERVIEW</h2>
                         <div className="flex flex-col xl:flex-row justify-between self-center min-w-full">
                             <SmallCard title="Issues" value={issues.length} icon={<PiWarning size={40} color='#0d3273' />} />
                             <div className='hidden xl:flex divider divider-horizontal max-h-[80%] justify-self-center'></div>
@@ -70,7 +70,7 @@ const Dashboard = () => {
                     </div>
                     
                     <div className='bg-base-200 rounded-xl flex flex-col gap-8 items-center p-4  shadow-inner'>
-                        <h2 className="card-title text-primary text-xl font-black text-right self-end hidden lg:flex">PROGRESS</h2>
+                        <h2 className="card-title text-primary text-xl font-medium text-right self-end hidden lg:flex">PROGRESS</h2>
                         <div className="flex flex-col xl:flex-row justify-between self-center min-w-full">
                         {tickets != null && tickets.length > 0 && tickets[0] != null && tickets[0].status != null ? <ProgressCard
                                 stage={tickets[0].status}

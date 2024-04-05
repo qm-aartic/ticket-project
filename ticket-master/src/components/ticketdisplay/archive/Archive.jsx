@@ -4,20 +4,22 @@ import axios from 'axios';
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState, useContext } from 'react'
 import { FilterContext } from '../FilterContextProvider';
+import { SearchContext } from '../FilterContextProvider';
 
 function Archive() {
 
     const { filter, setFilter } = useContext(FilterContext);
+    const { search, setSearch } = useContext(SearchContext);
     const [tickets, setTickets] = useState([]);
     const [loggedUser, setLoggedUser] = useState("");
 
     async function getTickets() {
         const { data } = await axios.get("http://localhost:3000/api/ticket");
-        setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.userId === loggedUser._id));
+        setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
         if (filter === "View Issues") {
-            setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "service" && ticket.userId === loggedUser._id));
+            setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "service" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
         } else if (filter === "View EC") {
-            setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "ec" && ticket.userId === loggedUser._id));
+            setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "ec" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
         }
     }
 
@@ -26,7 +28,7 @@ function Archive() {
         if (loggedUser) {
             getTickets();
         }
-    }, [loggedUser, filter]);
+    }, [loggedUser, filter, search]);
 
     useEffect(() => {
         try {
