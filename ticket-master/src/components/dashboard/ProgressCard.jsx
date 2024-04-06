@@ -26,7 +26,7 @@ const ProgressCard = ({stage="Pending", type="EC", title="Loading..."}) => {
     }
 
     return (
-        <div className='card bg-base-100 max-w-[48%] shadow-lg'>
+        <div className='card bg-base-100 xl:max-w-[48%] shadow-lg'>
             <div className='card-body flex flex-col xl:flex-row justify-between items-center min-w-full'>
                 <div className={`radial-progress ${color}`} style={{ "--value": percentage, "--size": "6rem", "--thickness": "6px" }} role="progressbar">
                     <h3 className="text-md font-bold text-primary text-center">Status:</h3>

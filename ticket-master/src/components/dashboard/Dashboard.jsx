@@ -50,7 +50,7 @@ const Dashboard = () => {
     return (
         <section className='flex items-center px-32 py-12 bg-base-200 min-w-[80%]'>
             <div className="card bg-base-100 shadow-xl p-8 min-w-full">
-                <div className="card-body grid grid-cols-2 grid-rows-2 gap-8">
+                <div className="card-body grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-8">
                     
                     <div className="flex flex-col justify-between items-start row-span-2">
                         <div className="flex flex-col gap-6">

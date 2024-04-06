@@ -47,6 +47,7 @@ function Tickets() {
         <>
             <DisplayHeader isArchive={false} />
             <section className='min-h-[80vh] py-10 px-40 flex flex-col gap-10'>
+                {tickets.length <= 0 && <h1 className="text-center text-2xl text-gray-500">No tickets found</h1>}
                 {tickets.map((ticket) => (
                     <Ticket
                     key={ticket._id} // Add a key prop for optimization
