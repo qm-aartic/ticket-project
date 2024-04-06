@@ -1,5 +1,5 @@
 import { useContext } from "react";
-// import { FaPlus } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
 import { FilterContext } from "./FilterContextProvider";
 import { SearchContext } from "./FilterContextProvider";
 
@@ -46,7 +46,7 @@ const DisplayHeader = ({ isArchive }) => {
             </div>
             <div className="navbar-end gap-4">
             <input type="text" placeholder="Search Tickets" className="input input-bordered w-full max-w-xs text-gray-700" onChange={handleSearchChange} />
-                {/* {!isArchive && <a href='/create-ticket' className="btn hover:bg-primary btn-outline text-white"> <FaPlus />New Ticket</a>} */}
+                {!isArchive && <a href='/create-ticket' className="btn hover:bg-primary btn-outline text-white"> <FaPlus />New Ticket</a>}
             </div>
         </div>
     );

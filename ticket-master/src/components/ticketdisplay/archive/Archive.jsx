@@ -44,6 +44,8 @@ function Archive() {
             <section className='min-h-[80vh] py-10 px-40 flex flex-col gap-10'>
                 {tickets.map((ticket) => (
                     <Ticket
+                    key={ticket._id} // Add a key prop for optimization
+                    id={ticket._id} // Pass the id as a prop
                         title={ticket.title}
                         status={ticket.status}
                         type={ticket.category}
