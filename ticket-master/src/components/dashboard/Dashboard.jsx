@@ -8,6 +8,7 @@ import { FiArchive } from "react-icons/fi";
 import ProgressCard from "./ProgressCard";
 import axios from "axios";
 import { FaPlus } from "react-icons/fa6";
+import Background from "../../assets/Background.png";
 
 const Dashboard = () => {
 
@@ -48,7 +49,7 @@ const Dashboard = () => {
     }, []);
 
     return (
-        <section className='flex items-center px-32 py-12 bg-base-200 min-w-[80%]'>
+        <section className='flex items-center px-32 py-12 bg-base-200 min-w-[80%]'  style={{backgroundImage: `url(${Background})`,backgroundSize: 'cover', backgroundPosition: 'center'}}>
             <div className="card bg-base-100 shadow-xl p-8 min-w-full">
                 <div className="card-body grid grid-cols-1 lg:grid-cols-2 lg:grid-rows-2 gap-8">
                     
