@@ -17,7 +17,11 @@ function Archive() {
         const { data } = await axios.get("http://localhost:3000/api/ticket");
         setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
         if (filter === "View Issues") {
-            setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "service" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
+            setTickets(data.filter((ticket) => ticket.status === "Archived" &&
+                (ticket.category === "service" || ticket.category === "Building Hazard" ||
+                    ticket.category === "Power" || ticket.category === "Other" || ticket.category === "Hardware"
+                    || ticket.category === "technical" || ticket.category === "functional" || ticket.category === "accessibility")
+                && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
         } else if (filter === "View EC") {
             setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "ec" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
         }
@@ -40,12 +44,12 @@ function Archive() {
 
     return (
         <>
-                <DisplayHeader isArchive={true} />
+            <DisplayHeader isArchive={true} />
             <section className='min-h-[80vh] py-10 px-40 flex flex-col gap-10'>
                 {tickets.map((ticket) => (
                     <Ticket
-                    key={ticket._id} // Add a key prop for optimization
-                    id={ticket._id} // Pass the id as a prop
+                        key={ticket._id} // Add a key prop for optimization
+                        id={ticket._id} // Pass the id as a prop
                         title={ticket.title}
                         status={ticket.status}
                         type={ticket.category}

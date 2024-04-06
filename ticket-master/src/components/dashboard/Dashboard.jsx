@@ -22,7 +22,11 @@ const Dashboard = () => {
     async function getTickets() {
         const { data } = await axios.get("http://localhost:3000/api/ticket");
         setTickets(data.filter((ticket) => ticket.status !== "Archived" && ticket.userId === loggedUser._id));
-        setIssues(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "service" && ticket.userId === loggedUser._id));
+        setIssues(data.filter((ticket) => ticket.status !== "Archived" &&
+         (ticket.category === "service" || ticket.category === "Building Hazard" || 
+         ticket.category === "Power" || ticket.category === "Other" || ticket.category === "Hardware"
+         || ticket.category === "technical" || ticket.category === "functional" || ticket.category === "accessibility") 
+         && ticket.userId === loggedUser._id));
         setEc(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "ec" && ticket.priority !== "high" && ticket.userId === loggedUser._id));
         setUrgentEc(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "ec" && ticket.priority === "high" && ticket.userId === loggedUser._id));
         setArchived(data.filter((ticket) => ticket.status === "Archived" && ticket.userId === loggedUser._id));

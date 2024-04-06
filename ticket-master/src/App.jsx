@@ -35,11 +35,6 @@ const App = () => {
       <Router>
         <Header />
         <Routes>
-          {/* TESTING, DELETEME! */}
-          <Route path='newTicket' element={<InputTicket />} />
-         
-          {/* //////////////////// */}
-
           <Route path='/view-ticket/:id' element={<ViewTicket />} />
           <Route path='/ticket-updated' element={<TicketUpdatedConfirmation />} />
 
@@ -58,6 +53,7 @@ const App = () => {
           {loggedUser && (
           <Route path="/" element={<Dashboard />} />)}
         </Routes>
+        <Footer />
       </Router>
     </>
   );
