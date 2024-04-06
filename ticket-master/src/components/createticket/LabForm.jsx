@@ -279,10 +279,10 @@ const InputTicket = () => {
   } = useForm({ resolver: zodResolver(schema) });
 
   const categoryDropDownOptions = [
-    { label: "Building Hazard", value: "building-hazard" },
-    { label: "Hardware", value: "hardware" },
-    { label: "Power", value: "power" },
-    { label: "Other", value: "other" },
+    { label: "Building Hazard", value: "Building Hazard" },
+    { label: "Hardware", value: "Hardware" },
+    { label: "Power", value: "Power" },
+    { label: "Other", value: "Other" },
   ];
 
   const handleCategoryDropDownChange = (selectedValue) => {
@@ -302,6 +302,8 @@ const InputTicket = () => {
       userName: loggedUser.name,
       fileName: data?.fileName[0],
       status: data.status,
+      reopenCount: 0,
+
     };
 
     console.log("new ticket", newTicket);
@@ -370,8 +372,8 @@ const InputTicket = () => {
                 ))}
               </select>
             </div>
-            <input type="hidden" id="department" {...register("department", { value: "LabRoom" })} />
-            <input type="hidden" id="priority" {...register("priority", { value: "default" })} />
+            <input type="hidden" id="department" {...register("department", { value: "Lab Room" })} />
+            <input type="hidden" id="priority" {...register("priority", { value: "Default" })} />
             <input type="hidden" {...register("status", { value: "Pending" })} />
             <div className="form-control">
               <label htmlFor="fileName" className="label-text block pb-0.5 pl-1">Attach evidence (optional)</label>

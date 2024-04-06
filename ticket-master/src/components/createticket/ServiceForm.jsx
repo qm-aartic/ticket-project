@@ -97,6 +97,8 @@ const InputTicket = () => {
       userName: loggedUser.name,
       fileName: data?.fileName[0],
       status: data.status,
+      reopenCount: 0,
+
     };
 
     console.log("new ticket", newTicket);
