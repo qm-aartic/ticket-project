@@ -45,10 +45,15 @@ function Tickets() {
             <section className='min-h-[80vh] py-10 px-40 flex flex-col gap-10'>
                 {tickets.map((ticket) => (
                     <Ticket
-                        title={ticket.title}
-                        status={ticket.status}
-                        type={ticket.category}
-                        feedback={ticket.feedback}
+                        // id={ticket._id}
+                        // title={ticket.title}
+                        // status={ticket.status}
+                        // type={ticket.category}
+                        // feedback={ticket.feedback}
+                        key={ticket._id} // Add a key prop for optimization
+                        id={ticket._id} // Pass the id as a prop
+
+                        {...ticket}
                     />
                 ))}
             </section>
