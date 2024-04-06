@@ -22,7 +22,7 @@ const createService = (newService) => {
 };
 
 const serviceData1 = {
-  name: 'mySIS',
+  name: 'mySis',
   status: true,
   faults: 0
 };
@@ -40,19 +40,7 @@ const serviceData3 = {
 };
 
 const serviceData4 = {
-  name: 'Hive Room Reservation Service',
-  status: false,
-  faults: 0
-};
-
-const serviceData5 = {
-  name: 'Library Room Reservation Service',
-  status: true,
-  faults: 0
-};
-
-const serviceData6 = {
-  name: 'Queen Mary Website',
+  name: 'Example Service4',
   status: true,
   faults: 0
 };
@@ -62,9 +50,6 @@ function initializeService(navigate) {
   createService(serviceData1);
   createService(serviceData2);
   createService(serviceData3);
-  createService(serviceData4);
-  createService(serviceData5);
-  createService(serviceData6);
   navigate("/");
 }
 

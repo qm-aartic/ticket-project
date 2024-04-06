@@ -17,6 +17,7 @@ const schema = z.object({
   module: z.string().optional(),
   priority: z.any().optional(),
   status: z.any().optional().default("Pending"),
+  reopenCount: z.number().optional().default(0),
 });
 
 const InputTicket = () => {

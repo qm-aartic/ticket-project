@@ -10,7 +10,6 @@ import SignUp from "./components/signup/SignUp";
 import CreateTicket from './components/createticket/CreateTicket'; 
 import TicketCreated from './components/createticket/TicketCreated';
 import Services from "./components/service-status/Services";
-import InputTicket from "./components/legacy/InputTicket";
 
 import { Footer } from "./components/footer/Footer";
 import Archive from "./components/ticketdisplay/archive/Archive";
@@ -40,6 +39,7 @@ const App = () => {
 
           <Route path='/archive' element={<FilterContextProvider children={<Archive />} />} />
           <Route path='/tickets' element={<FilterContextProvider children={<Tickets />} />} />
+          <Route path='/services' element={<Services />} /> 
 
 
           <Route path='/create-ticket' element={<CreateTicket />} />
