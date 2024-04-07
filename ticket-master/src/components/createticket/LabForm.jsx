@@ -126,6 +126,7 @@ const InputTicket = () => {
                 <p className="text-danger">{errors.desc.message}</p>
               )}
             </div>
+
             <div className="mb-3">
               <label htmlFor="category" className="label-text block pb-0.5 pl-1">Category</label>
               <select
@@ -142,6 +143,7 @@ const InputTicket = () => {
                 ))}
               </select>
             </div>
+            
             <input type="hidden" id="department" {...register("department", { value: "Lab Room" })} />
             <input type="hidden" id="priority" {...register("priority", { value: "Default" })} />
             <input type="hidden" {...register("status", { value: "Pending" })} />
