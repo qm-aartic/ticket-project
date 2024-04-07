@@ -23,6 +23,9 @@ function Header() {
                     <li><NavLink to="/">Dashboard</NavLink></li>
                     <li><NavLink to="/tickets">Tickets</NavLink></li>
                     <li><NavLink to="/archive">Archive</NavLink></li>
+                     {loggedUser.role === "admin" &&
+                        <li><NavLink to="/users">Users</NavLink></li>
+                    }
                 </ul> )}
             </div>
             <div className="navbar-center">
