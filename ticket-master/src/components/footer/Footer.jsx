@@ -10,10 +10,10 @@ export const Footer = () => {
             <nav>
                 <h6 className="footer-title">Navigation</h6>
             <ul className="flex flex-wrap gap-4 max-w-64">
-                <a className="link link-hover">Dashboard</a>
-                <a className="link link-hover">Issues</a>
-                <a className="link link-hover">EC</a>
-                <a className="link link-hover">Archive</a>
+                <a className="link link-hover" href="/">Dashboard</a>
+                <a className="link link-hover" href="/tickets">Issues</a>
+                <a className="link link-hover" href="/tickets">EC</a>
+                <a className="link link-hover" href="/archive">Archive</a>
                 </ul>
             </nav>
 

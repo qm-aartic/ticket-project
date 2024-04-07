@@ -56,7 +56,7 @@ function Header() {
             <div className="navbar-end hidden lg:flex mr-20">
                 <ul className="menu menu-horizontal px-1 items-center flex">
                     <li><NavLink to="/faq">FAQ</NavLink></li>
-                    <li><NavLink to="/services">Services</NavLink></li>
+                    {loggedUser && (<li><NavLink to="/services">Services</NavLink></li>)}
 
                     {!loggedUser && (
                         <><div className="w-5"></div><li><NavLink to="/" className="btn bg-white px-8">Sign In</NavLink></li></>)}
@@ -68,7 +68,7 @@ function Header() {
                                 </div>
                             </div>
                             <ul tabIndex={1} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
-                                <li><a>My Profile</a></li>
+                                <li><a href={`/view-user/${loggedUser._id}`}>My Profile</a></li>
                                 <li><NavLink to="/logout">Logout</NavLink></li>
                             </ul>
                         </div>
