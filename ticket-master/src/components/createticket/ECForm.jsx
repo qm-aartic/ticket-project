@@ -1,188 +1,222 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
-const ECForm = () => {
-    // define state variables
-    const [selectedOption, setSelectedOption] = useState('');
-    const [reason, setReason] = useState('');
-    const [summary, setSummary] = useState('');
-    const [affectedModules, setAffectedModules] = useState([]);
-    const [affectedAssessments, setAffectedAssessments] = useState([]);
-    const [file, setFile] = useState(null);
+const schema = z.object({
+  title: z.string().min(5, { message: "Title must be atleast 5 characters." }),
+  desc: z
+    .string()
+    .min(15, { message: "Description must be atleast 15 characters." }),
+  fileName: z.any().optional().default(""),
+  category: z.string().optional(),
+  department: z.string().optional(),
+  module: z.string().optional(),
+  priority: z.any().optional(),
+  status: z.any().optional().default("Pending"),
+});
 
-    // handle form submission 
-    const handleSubmit = (event) => {
-        // prevent an empty form from being submitted
-        event.preventDefault();
-        // return error msg if either category or summary are left empty
-        if (!selectedOption || !reason || !summary || affectedModules.length === 0 || affectedAssessments.length === 0) {
-            alert('Please fill in all required fields.');
-            return;
-        }
+const InputTicket = () => {
+  const navigate = useNavigate();
+  const [loggedUser, setLoggedUser] = useState("");
 
-        // when user submits form, direct them to successful ticket page
-        window.location.href = '/ticket-created';
+  useEffect(() => {
+    try {
+      const jwt = localStorage.getItem("token");
+      const user = jwtDecode(jwt);
+      setLoggedUser(user);
+    } catch (error) {
+      console.log(error.message);
+    }
+  }, []);
+
+  const [allTickets, setAllTickets] = useState([]);
+
+  axios.defaults.headers.common["x-auth-token"] = localStorage.getItem("token");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3000/api/ticket")
+      .then((res) => setAllTickets(res.data));
+  }, []);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({ resolver: zodResolver(schema) });
+
+  // Start Drop Down Code Changes
+  const [departmentDropDownOptions, setDepartmentDropDownOptions] = useState(
+    [{ label: "Computer Science", value: "computer_science" },
+    { label: "Maths", value: "maths" }]
+  );
+  const [moduleDropDownOptions, setModuleDropDownOptions] = useState([]);
+
+  const handleDepartmentDropDownChange = (selectedValue) => {
+    if (selectedValue === "computer_science") {
+      setModuleDropDownOptions([
+        { label: "Database", value: "database" },
+        { label: "Probability", value: "probability" },
+      ]);
+    } else if (selectedValue === "maths") {
+      setModuleDropDownOptions([
+        { label: "Logic", value: "logic" },
+        { label: "Matrices", value: "matrices" },
+      ]);
+    } else {
+      setModuleDropDownOptions([]);
+    }
+  };
+
+  // End Drop Down Code Changes
+
+  const onSubmit = (data) => {
+    const originalTickets = [...allTickets];
+    const newTicket = {
+      title: data.title,
+      desc: data.desc,
+      category: data.category,
+      department: data.department,
+      module: data?.module,
+      priority: data.priority,
+      userId: loggedUser._id,
+      userName: loggedUser.name,
+      fileName: data?.fileName[0],
+      status: data.status,
+      reopenCount: 0,
     };
 
-    // affected modules options
-    const affectedModulesList = [
-        { value: 'ECS518U', label: 'ECS518U: Operating Systems' },
-        { value: 'ECS506U', label: 'ECS506U: Software Engineering Project' },
-        { value: 'ECS522U', label: 'ECS522U: Graphical User Interfaces' },
-        { value: 'ECS524U', label: 'ECS524U: Internet Protocols and Applications' },
-    ];
+    axios
+      .post("http://localhost:3000/api/ticket", newTicket, {
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+      .then(({ data: savedTicket }) =>
+        setAllTickets([savedTicket, ...allTickets])
+      )
+      .catch((err) => {
+        console.log("error caused posting ", err);
+        setAllTickets(...originalTickets);
+      });
+    setTimeout(() => {
+      navigate("/");
+    }, 100);
+  };
 
-    // affected assessments options
-    const affectedAssessmentsOptions = {
-        ECS518U: ['Lab1', 'Lab2', 'Lab3', 'Lab4', 'Lab5', 'Lab6', 'Lab7', 'Lab8', 'MCQ1', 'MCQ2', 'Final Exam'],
-        ECS506U: ['Domain Analysis Report', 'Domain Analysis Presentation', 'Requirements Report', 'Requirements Presentation', 'Design Report', 'Prototype Report', 'Prototype Presentation'],
-        ECS522U: ['Assignment1', 'Assignment2', 'Assignment3', 'Final Exam'],
-        ECS524U: ['Coursework1', 'Coursework2', 'Coursework3', 'Coursework4', 'Final Exam'],
-    };
+  return (
+      <div className="flex justify-center items-center min-h-[70vh] bg-white">
+        <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100 p-10 flex flex-col gap-6">
+          <h3 className="card-title text-center">Report Lab Issue</h3> 
+          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+            <div>
 
-     // ec reasons choices
-     const ECReasons = [
-        { value: 'severe-illness-acute', label: 'Severe illness/medical reasons: acute episode' },
-        { value: 'minor-illness-acute', label: 'Minor illness/medical reasons: acute episode' },
-        { value: 'severe-illness-chronic', label: 'Severe illness/medical reasons: chronic episode' },
-        { value: 'minor-illness-chronic', label: 'Minor illness/medical reasons: chronic episode' },
-        { value: 'bereavement', label: 'Bereavement' },
-        { value: 'other', label: 'Other' }, 
-    ];
-
-    // handle reason change
-    const handleReasonChange = (event) => {
-        setReason(event.target.value);
-    };
-
-    // handle summary change
-    const handleSummaryChange = (event) => {
-        setSummary(event.target.value);
-    };
-
-    // handle module checkbox change
-    const handleModuleChange = (event) => {
-        const { value, checked } = event.target;
-        if (checked) {
-            setAffectedModules([...affectedModules, value]);
-        } else {
-            setAffectedModules(affectedModules.filter((module) => module !== value));
-        }
-    };
-
-    // handle assessment checkbox change
-    const handleAssessmentChange = (event) => {
-        const { value, checked } = event.target;
-        let updatedAssessments = [...affectedAssessments];
-        if (checked) {
-            updatedAssessments.push(value);
-        } else {
-            updatedAssessments = updatedAssessments.filter((assessment) => assessment !== value);
-        }
-        setAffectedAssessments(updatedAssessments);
-    };
-
-    // handle file upload change
-    const handleFileChange = (event) => {
-        // only allow a single file to be uploaded
-        setFile(event.target.files[0]);
-    };
-
-    return (
-        <div className="flex justify-center items-center min-h-screen bg-white ">
-            <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100">
-                {/* heading for page */}
-                <h3 className="card-title text-center pt-7 pl-10">Submit EC Claim</h3>
-                {/* when submitting form, call handleSubmit function to process the form */}
-                <form className="card-body p-8" onSubmit={handleSubmit}>
-
-                    <div className="flex">
-                        <div className="form-control mr-4">
-                            <label className="label cursor-pointer flex items-center">
-                                <input type="radio" name="radio-10" className="radio checked:bg-primary" checked />
-                                <span className="label-text pl-1">Standard EC</span> 
-                            </label>
-                        </div>
-                        <div className="form-control">
-                            <label className="label cursor-pointer flex items-center pl-5">
-                                <input type="radio" name="radio-10" className="radio checked:bg-primary" />
-                                <span className="label-text pl-2">Urgent EC</span> 
-                            </label>
-                        </div>
-                    </div>
-                    <div className="form-control">
-                        {/* choose category option */}
-                        <span className="label-text block pb-0.5 pl-1"> EC Reason: </span>
-                        <select className="select select-bordered w-full " name="ec-ticket-reason" id="ec-ticket-reason" value={reason} onChange={handleReasonChange} required>
-                            <option value="" disabled>Select reason...</option>
-                            {ECReasons.map(ECReason => (
-                                <option key={ECReason.value} value={ECReason.value}>{ECReason.label}</option>
-                            ))}
-                        </select>
-                    </div>
-                    <div className="form-control">
-                        {/* enter summary of lab issue */}
-                        <span className="label-text block pb-0.5 pl-1"> Summary: </span>
-                        <textarea className="textarea textarea-bordered w-full" placeholder="Summary..." value={summary} onChange={handleSummaryChange} maxLength={5000} required></textarea>
-                        <small className="text-gray-600 pl-1">{summary.length}/5000 characters</small>
-                    </div>
-                    {/* choose affected modules */}
-                    <div className="form-control flex items-start">
-                        <span className="label-text block pl-1 text-base">Affected Module(s):</span>
-                        {affectedModulesList.map(module => (
-                            <label key={module.value} className="label cursor-pointer flex items-center">
-                                <input
-                                    type="checkbox"
-                                    name="affectedModules"
-                                    value={module.value}
-                                    onChange={handleModuleChange}
-                                    className="checkbox text-primary"
-                                />
-                                <span className="text-base pl-2">{module.label}</span>
-                            </label>
-                        ))}
-                    </div>
-
-                    {/* based on affected modules, allow user to choose affected assessments */}
-                    <div id="affected-assessments" className="form-control flex items-start">
-                        <span className="label-text block pl-1 text-base">Affected Assessment(s):</span>
-                        {affectedModules.map((module) => (
-                            <div key={module}>
-                                {module in affectedAssessmentsOptions && (
-                                    <>
-                                        {affectedAssessmentsOptions[module].map((assessment) => (
-                                            <label key={assessment} className="label cursor-pointer flex items-center">
-                                                <input
-                                                    type="checkbox"
-                                                    name="affectedAssessments"
-                                                    value={assessment}
-                                                    onChange={handleAssessmentChange}
-                                                    className="checkbox text-primary"
-                                                />
-                                                <span className="text-base">{module}: {assessment}</span>
-                                            </label>
-                                        ))}
-                                        <br />
-                                    </>
-                                )}
-                            </div>
-                        ))}
-                    </div>
-                    <div className="form-control">
-                        {/* user can attach evidence if needed */}
-                        <span className="label-text block pb-0.5 pl-1"> Attach evidence (optional): </span>
-                        <input type="file" className="file-input file-input-bordered file-input-md w-full max-w-xs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" onChange={handleFileChange} />
-                        <small className="text-gray-600">Accepted file types: PDF, Word, JPEG, PNG.</small>
-                    </div>
-                    {/* Submit button */}
-                    <button type="submit" className="btn btn-primary mt-4 text-white">Submit</button>
-                </form>
+              {/* TITLE */}
+              <label htmlFor="title" className="form-label">
+                Title
+              </label>
+              <input
+                id="title"
+                {...register("title")}
+                type="text"
+                className="form-control textarea textarea-bordered w-full"
+              />
+              {errors.title && (
+                <p className="text-danger">{errors.title.message}</p>
+              )}
             </div>
+
+            {/* DESCRIPTION */}
+            <div>
+              <label htmlFor="desc" className="form-label">
+                Description
+              </label>
+              <input
+                id="desc"
+                {...register("desc")}
+                type="text"
+                className="form-control textarea textarea-bordered w-full"
+              />
+              {errors.desc && (
+                <p className="text-danger">{errors.desc.message}</p>
+              )}
+            </div>
+
+            {/* DEPARTMENT */}
+            <div>
+              <label htmlFor="department" className="form-label">
+                Department
+              </label>
+              <select
+                id="department"
+                {...register("department")}
+                className="form-select select select-bordered w-full"
+                onChange={(e) => handleDepartmentDropDownChange(e.target.value)}
+              >
+                <option value="">Select...</option>
+                {departmentDropDownOptions.map((department) => (
+                  <option key={department.value} value={department.value}>
+                    {department.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* MODULE */}
+            <div>
+              <label htmlFor="module" className="form-label">
+                Module
+              </label>
+              <select
+                id="module"
+                {...register("module")}
+                className="form-select select select-bordered w-full"
+              >
+                <option value="">Select...</option>
+                {moduleDropDownOptions.map((module) => (
+                  <option key={module.value} value={module.value}>
+                    {module.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* PRIORITY */}
+            <div>
+              <label htmlFor="priority" className="form-label">
+                Ticket Priority
+              </label>
+              <select
+                id="priority"
+                {...register("priority")}
+                className="form-select select select-bordered w-full"
+              >
+                <option value="default">Default</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+
+            {/* EVIDENCE */}
+            <div className="form-control">
+              <label htmlFor="fileName" className="label-text block pb-0.5 pl-1">Attach evidence (optional)</label>
+              <input {...register("fileName")} type="file" className="file-input file-input-bordered file-input-md w-full max-w-xs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
+              <small className="text-gray-600">Accepted file types: PDF, Word, JPEG, PNG.</small>
+            </div>
+              
+            {/* STATUS [HIDDEN] */}
+            <input type="hidden" {...register("status", { value: "Pending" })} />
+            <input type="hidden" {...register("category", { value: "ec" })} />
+
+            {/* SUBMIT BUTTON */}
+            <button className="btn btn-primary" type="submit">
+              Submit
+            </button>
+          </form>
         </div>
-);
+        </div>
+      );
 };
 
-export default ECForm;
-
-
-// original EC form is above 
-
+      export default InputTicket;
