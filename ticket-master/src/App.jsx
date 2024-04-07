@@ -18,6 +18,10 @@ import FilterContextProvider from "./components/ticketdisplay/FilterContextProvi
 import ViewTicket from "./components/viewticket/ViewTicket";
 import TicketUpdatedConfirmation from "./components/viewticket/TicketUpdated";
 
+import Users from "./components/userdisplay/Users";
+import UserContextFilterProvider from "./components/userdisplay/UserContextFilterProvider";
+import ViewUser from "./components/userdisplay/ViewUser";
+
 
 const App = () => {
   const [loggedUser, setLoggedUser] = useState("");
@@ -41,6 +45,8 @@ const App = () => {
           <Route path='/tickets' element={<FilterContextProvider children={<Tickets />} />} />
           <Route path='/services' element={<Services />} /> 
 
+          <Route path="/users" element={<UserContextFilterProvider children={<Users />} />} />
+          <Route path="/view-user/:id" element={<ViewUser/>} />
 
           <Route path='/create-ticket' element={<CreateTicket />} />
           <Route path='/ticket-created' element={<TicketCreated />} />
