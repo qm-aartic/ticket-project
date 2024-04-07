@@ -6,6 +6,10 @@ import axios, { all } from "axios";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate, useParams } from "react-router-dom";
 import emailjs from "@emailjs/browser";
+import { FaCheck } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
+import { FaTrash } from "react-icons/fa6";
+import { FiUpload } from "react-icons/fi";
 
 const schema = z.object({
   title: z.string(),
@@ -126,18 +130,18 @@ const UpdateTicket = () => {
 
   return (
     <>
-      <div className="min-h-[88vh] bg-gray-100 flex flex-col justify-center items-center">
-        <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 relative w-full max-w-4xl">   
-        <form onSubmit={handleSubmit(onUpdate, sendEmail)}>
+      <div className="min-h-[88vh] bg-base-200 hero px-64">
+        <div className="bg-white card p-10 relative min-w-full">   
+        <form onSubmit={handleSubmit(onUpdate, sendEmail)} className="flex flex-col gap-10 max-w-full">
           <div className="mb-3">
-            <label htmlFor="title" className="card-title font-light text-primary">
+            <label htmlFor="title" className="card-title font-normal text-2xl text-primary">
               Title
             </label>
             <input
               id="title"
               {...register("title")}
               type="text"
-              className="form-control"
+              className="form-control w-[100%]"
               value={ticket.title}
               onChange={(event) =>
                 setTicket({ ...ticket, title: event.target.value })
@@ -149,14 +153,14 @@ const UpdateTicket = () => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="desc" className="card-title font-light text-primary">
+            <label htmlFor="desc" className="card-title  font-normal text-2xl text-primary">
               Description
             </label>
             <input
               id="desc"
               {...register("desc")}
               type="text"
-              className="form-control"
+              className="form-control w-[100%]"
               value={ticket.desc}
               onChange={(event) =>
                 setTicket({ ...ticket, desc: event.target.value })
@@ -167,8 +171,8 @@ const UpdateTicket = () => {
             )}
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="category" className="card-title font-light text-primary">
+          <div>
+            <label htmlFor="category" className="card-title  font-normal text-2xl text-primary">
               Category
             </label>
             <input
@@ -184,8 +188,8 @@ const UpdateTicket = () => {
             />
           </div>
 
-          <div className="mb-3">
-            <label htmlFor="priority" className="card-title font-light text-primary">
+          <div>
+            <label htmlFor="priority" className="card-title  font-normal text-2xl text-primary">
               Ticket Priority
             </label>
             <select
@@ -204,8 +208,8 @@ const UpdateTicket = () => {
 
           {loggedUser.role !== "student" && (
             <>
-              <div className="mb-3">
-                <label htmlFor="status" className="card-title font-light text-primary">
+              <div>
+                <label htmlFor="status" className="card-title  font-normal text-2xl text-primary">
                   Status
                 </label>
                 <select
@@ -224,14 +228,14 @@ const UpdateTicket = () => {
                 </select>
               </div>
 
-              <div className="mb-3">
-                <label htmlFor="adminComments" className="card-title font-light text-primary">
+              <div>
+                <label htmlFor="adminComments" className="card-title font-normal text-2xl  text-primary">
                   Comments
                 </label>
                 <input
                   id="adminComments"
                   type="text"
-                  className="form-control"
+                  className="form-control w-[100%]"
                   {...register("adminComments")}
                   value={ticket.adminComments}
                   onChange={(event) =>
@@ -242,12 +246,14 @@ const UpdateTicket = () => {
             </>
           )}
 
+          <div className="flex gap-2 w-[100%] justify-start items-center">
           <button
             disabled={!isValid}
             className="btn btn-primary"
             type="submit"
           >
             Update
+            <FaCheck />
           </button>
           {ticket.status === "Archived" && (
             <button
@@ -255,6 +261,7 @@ const UpdateTicket = () => {
               className="btn btn-success"
             >
               Reopen
+              <FiUpload />
             </button>
           )}
           {ticket.status !== "Archived" && (
@@ -263,14 +270,18 @@ const UpdateTicket = () => {
               className="btn btn-warning"
             >
               Archive
+              <FaTrash />
             </button>
           )}
           <button
             onClick={() => navigate("/")}
-            className="m-2 btn btn-secondary self-end"
+            className="btn btn-primary btn-outline"
           >
             Cancel
+            <FaTimes />
           </button>
+          </div>
+          
           
         </form>
       </div>
