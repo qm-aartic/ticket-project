@@ -25,86 +25,6 @@ const UpdateTicket = () => {
   const [loggedUser, setLoggedUser] = useState("");
   const [ticketUser, setTicketUser] = useState("");
 
-  const onUpdate = (data) => {
-    const originalTicket = { ...ticket };
-    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
-    // console.log(updatedTicket);
-    axios
-      .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
-      .catch((err) => setTicket(originalTicket));
-    // window.location = "/";
-    navigate("/ticket-updated");
-  };
-
-  const archiveTicket = () => {
-    const originalTicket = { ...ticket };
-    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
-    updatedTicket.status = "Archived";
-    axios
-      .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
-      .catch((err) => setTicket(originalTicket));
-    navigate("/archive");
-  };
-
-  const openTicket = () => {
-    const originalTicket = { ...ticket };
-    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
-    updatedTicket.status = "Pending";
-    axios
-      .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
-      .catch((err) => setTicket(originalTicket));
-    navigate("/tickets");
-  };
-
-  const sendEmail = (data) => {
-    const originalTicket = { ...ticket };
-    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
-
-    console.log(updatedTicket);
-
-    const serviceId = "service_u2bvn5q";
-    const templateId = "template_wv0j7d8";
-    const publicKey = "6sWoVJwPyHfozi86y";
-
-    axios
-      .get(`http://localhost:3000/api/users/${updatedTicket.userId}`)
-      .then((response) => {
-        setTicketUser(response.data);
-      })
-      .catch((error) => {
-        console.error("Error fetching user data:", error);
-      });
-
-    const params = {
-      ticket_type: updatedTicket.category,
-      to_name: ticketUser.name,
-      ticket_desc: updatedTicket.desc,
-      user_email: ticketUser.email,
-      ticket_result: updatedTicket.status,
-    };
-
-    emailjs
-      .send(serviceId, templateId, params, publicKey)
-      .then((response) => {
-        console.log("Email sent succesfully!", response);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  const handleSubmit =
-    (...funcs) =>
-      (event) => {
-        event.preventDefault();
-        funcs.forEach((func) => func(event));
-      };
-
-  const deleteTicket = () => {
-    axios
-      .delete(`http://localhost:3000/api/ticket/${params.id}`)
-      .then((res) => console.log(res.data));
-    navigate("/archive");
-  };
   useEffect(() => {
     try {
       const jwt = localStorage.getItem("token");
@@ -122,18 +42,84 @@ const UpdateTicket = () => {
 
   useEffect(() => {
     axios.get(`http://localhost:3000/api/ticket/${params.id}`).then((res) => {
-      console.log(res.data);
       setTicket(res.data);
     });
   }, [loggedUser]);
 
-  console.log(ticket.category);
 
   const {
     register,
     formState: { errors, isValid },
   } = useForm({ resolver: zodResolver(schema) });
 
+  const handleSubmit = (...funcs) => (event) => {
+    event.preventDefault();
+    funcs.forEach(func => func(event));
+  };
+  const archiveTicket = () => {
+    const originalTicket = { ...ticket };
+    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
+    updatedTicket.status = "Archived";
+    axios
+      .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
+      .catch((err) => setTicket(originalTicket));
+    navigate("/archive");
+  };
+
+  const openTicket = () => {
+    const originalTicket = { ...ticket };
+    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
+    updatedTicket.status = "Pending";
+    updatedTicket.reopenCount = updatedTicket.reopenCount + 1;
+    axios
+      .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
+      .catch((err) => setTicket(originalTicket));
+    navigate("/tickets");
+  };
+  const deleteTicket = () => {
+    axios
+    .delete(`http://localhost:3000/api/ticket/${params.id}`)
+    .then((res) => console.log(res.data));
+  navigate("/archive");
+};
+  const onUpdate = (data) => {
+    const originalTicket = { ...ticket };
+    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
+    axios
+      .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
+      .catch((err) => setTicket(originalTicket));
+  };
+  
+  const sendEmail = async (data) => {
+    const originalTicket = { ...ticket };
+    const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
+    
+    const serviceId = 'service_9re6h25';
+    const templateId = 'template_wv0j7d8';
+    const publicKey ='6sWoVJwPyHfozi86y';
+
+    try {
+        const response = await axios.get(`http://localhost:3000/api/users/${updatedTicket.userId}`);
+        const ticketUser = response.data;
+        setTicketUser(ticketUser);
+        console.log(ticketUser);
+
+        const params = {
+            ticket_type: updatedTicket.category,
+            to_name: ticketUser.name,
+            ticket_desc: updatedTicket.desc,
+            user_email: ticketUser.email,
+            ticket_result: updatedTicket.status,
+        };
+
+        await emailjs.send(serviceId, templateId, params, publicKey);
+        console.log('Email sent successfully!');
+        window.location = "/";
+    } catch (error) {
+        console.error('Error sending email:', error); 
+        window.location = "/";
+    }
+};
   return (
     <>
       <div className="min-h-[88vh] bg-base-200 hero px-64">
@@ -263,18 +249,27 @@ const UpdateTicket = () => {
               </button>
               {ticket.status === "Archived" && (
                 <>
+                {ticket.reopenCount < 2 ? (
                   <button
                     onClick={() => openTicket()}
                     className="btn btn-success"
                   >
-                    Reopen
+                    Reopen {ticket.reopenCount + 1} of 2
                     <FiUpload />
-                  </button>
-                  <div className="btn btn-warning" onClick={() => document.getElementById('my_modal_1').showModal()}>
+                  </button>) : 
+                  <button
+                    onClick={() => openTicket()}
+                    className="btn btn-success"
+                    disabled
+                  >
+                    Reopened too many times
+                    <FiUpload />
+                  </button>}
+                  <div className="btn btn-warning" onClick={() => document.getElementById('delete_modal').showModal()}>
                     Delete
                     <FaTrash />
                   </div>
-                  <dialog id="my_modal_1" className="modal">
+                  <dialog id="delete_modal" className="modal">
                     <div className="modal-box">
                       <h3 className="font-bold text-lg">Delete Ticket</h3>
                       <p className="py-4">This action cannot be undone! Are you sure you want to delete <span className="font-bold">{ticket.title}</span>?</p>

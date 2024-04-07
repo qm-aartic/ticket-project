@@ -100,7 +100,7 @@ function Archive() {
                         title={ticket.title}
                         status={ticket.status}
                         type={ticket.category}
-                        feedback={ticket.feedback}
+                        feedback={ticket.adminComments}
                     />
                 ))}
             </section>
