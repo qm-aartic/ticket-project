@@ -2,6 +2,9 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
+import { FaRegEdit } from "react-icons/fa";
+import { FaCheck } from "react-icons/fa";
+
 
 const ViewUser = () => {
     const [loggedUser, setLoggedUser] = useState("");
@@ -52,52 +55,37 @@ const ViewUser = () => {
 
     return (
         <div>
-            <div className="min-h-[88vh] bg-gray-100 flex flex-col justify-center items-center">
-                <div className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 relative w-full max-w-4xl">   
-                    <form onSubmit = {handleSubmit(handleUpdate)}>
+            <div className="min-h-[80vh] hero bg-base-200 px-96">
+                <div className="card bg-base-100 p-10 min-w-full flex flex-col gap-8">   
+                    <h2 className="card-title text-primary"> User Details </h2>
+                    <form onSubmit = {handleSubmit(handleUpdate)} className='flex flex-col gap-4'>
                         <div className="mb-3">
                             <label htmlFor="name" className="card-title font-light text-primary"> Name </label>
                             <input
                             id="name"
                             type="text"
-                            className="form-control disabled:bg-[#EFEFEF] disabled:opacity-75"
+                            className="form-control disabled:bg-[#EFEFEF] disabled:opacity-75 min-w-full"
                             value = {user.name}
                             onChange = {(e) => setUser({...user, name: e.target.value})}
                             disabled = {!isUpdating}
                             />
                         </div>
-                        {/* Role can't be changed
-                        <div className="mb-3">
-                            <label htmlFor="role" className="card-title font-light text-primary"> Role </label>
-                            <select
-                            id="role"
-                            className="form-select disabled:bg-[#EFEFEF] disabled:opacity-75"
-                            value={user.role}
-                            onChange={(e) =>
-                                setUser({ ...user, role: e.target.value })
-                            }
-                            disabled = {!isUpdating}
-                            >
-                                <option value="Student"> Student </option>
-                                <option value="Staff"> Staff </option>
-                                <option value="Admin"> Admin </option>
-                            </select>
-                        </div>
-                        */}
                         <div className="mb-3">
                             <label htmlFor="email" className="card-title font-light text-primary"> Email </label>
                             <input
                             id="email"
                             type="text"
-                            className="form-control disabled:bg-[#EFEFEF] disabled:opacity-75"
+                            className="form-control disabled:bg-[#EFEFEF] disabled:opacity-75 min-w-full"
                             value = {user.email}
                             onChange = {(e) => {setUser({...user, email: e.target.value})}}
                             disabled = {!isUpdating}
                             />
                         </div>
                         <div className = "flex flex-row justify-between items-center">
-                            <button type = "submit" className="btn btn-primary" onClick={() => setIsUpdating(update => !update)}> {isUpdating ? "Update" : "Change"} </button>
-                            <button className="m-2 btn btn-secondary" onClick={() => navigate("/users")}> Back </button>
+                            <button type = "submit" className="btn btn-primary text-white" onClick={() => setIsUpdating(update => !update)}> 
+                            {isUpdating ? <p className='flex gap-4 items-center'>Update <FaCheck size={18} /></p> : <p className='flex gap-10 items-center'>Edit <FaRegEdit size={18} /></p> }
+                             </button>
+                            <button className="btn btn-black btn-outline" onClick={() => navigate("/")}> Back </button>
                         </div>
                     </form>
                 </div>

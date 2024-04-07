@@ -7,7 +7,7 @@ function User({id, name, role, email}) {
     return (
         <div className="card bg-base-100 shadow-xl h-40">
             <div className="flex justify-between items-start p-0 min-h-full">
-                <div className="max-w-80 card-body cursor-pointer flex flex-row justify-between items-center min-h-full gap-10 bg-primary rounded-[1rem_0_0_1rem]">
+                <div className="w-16 cursor-pointer flex flex-row justify-between items-center min-h-full gap-10 bg-primary rounded-[1rem_0_0_1rem]">
                 </div>
                 <div className="card-body flex-row max-w-full justify-evenly py-8 self-center">
                     <div className='flex flex-col items-center'>
