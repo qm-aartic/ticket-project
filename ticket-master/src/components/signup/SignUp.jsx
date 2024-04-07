@@ -77,12 +77,12 @@ const SignUp = () => {
                             <select className="select select-bordered w-full max-w-xs" name="role" id="role" defaultValue="" {...register("role")} onChange={(e) => setRole(e.target.value)}>
                                 <option disabled>Role</option>
                                 <option value="student">Student</option>
-                                <option value="lecturer">Lecturer</option>
-                                <option value="staff">Staff Member</option>
+                                <option value="teaching-admin-ec">Teaching Admin EC</option>
+                                <option value="teaching-admin-staff">Teaching Admin Staff</option>
                                 <option value="admin">Admin</option>
                             </select>
                         </div>
-                        {role === "lecturer" && (<div className="form-control">
+                        {role === "teaching-admin-ec" && (<div className="form-control">
                             <select className="select select-bordered w-full max-w-xs" name="department" id="department" defaultValue="" {...register("department")}>
                                 <option disabled >Department</option>
                                 <option value="computer_science">Computer Science</option>

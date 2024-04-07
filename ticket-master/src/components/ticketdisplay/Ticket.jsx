@@ -14,8 +14,9 @@ function Ticket({id, title="No Title Provided", status = "Approved", type = "EC"
                 </div>
                 <div className="card-body flex-row max-w-full justify-evenly py-8 self-center">
                     <div className='flex flex-col items-center '>
-                        {status === "Approved" ? <FaCheckCircle size={80} className='text-green-500' />
+                        {status === "Resolved" ? <FaCheckCircle size={80} className='text-green-500' />
                          : status === "Pending" ? <FaClock  size={80} className='text-yellow-500' /> 
+                         : status === "Review" ? <FaClock  size={80} className='text-blue-300' /> 
                          : status === "Archived" ? <FaArchive size={80} className='text-primary' />
                           : <FaTimesCircle size={80} className='text-red-500' />}
                     </div>

@@ -18,7 +18,7 @@ function Archive() {
     async function getTickets() {
         const { data } = await axios.get("http://localhost:3000/api/ticket");
         switch (loggedUser.role) {
-            case "admin", "staff":
+            case "admin":
                 setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 if (filter === "View Issues") {
                     setTickets(data.filter((ticket) => ticket.status === "Archived" &&
@@ -31,6 +31,19 @@ function Archive() {
                     setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "ec" && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 }
                 break;
+                case "teaching-admin-staff":
+                    setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.title.toLowerCase().includes(search.toLowerCase())));
+                    if (filter === "View Issues") {
+                        setTickets(data.filter((ticket) => ticket.status === "Archived" &&
+                            (ticket.category === "service" || ticket.category === "Building Hazard" ||
+    
+                                ticket.category === "Power" || ticket.category === "Other" || ticket.category === "Hardware"
+                                || ticket.category === "technical" || ticket.category === "functional" || ticket.category === "accessibility")
+                            && ticket.title.toLowerCase().includes(search.toLowerCase())));
+                    } else if (filter === "View EC") {
+                        setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "ec" && ticket.title.toLowerCase().includes(search.toLowerCase())));
+                    }
+                    break;
             case "student":
                 setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 if (filter === "View Issues") {
@@ -43,7 +56,7 @@ function Archive() {
                     setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === "ec" && ticket.userId === loggedUser._id && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 }
                 break;
-            case "lecturer":
+            case "teaching-admin-ec":
                 setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.department === loggedUser.department && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 if (filter === "View Issues") {
                     setTickets(data.filter((ticket) => ticket.status === "Archived" && 

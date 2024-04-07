@@ -12,10 +12,10 @@ const ProgressCard = ({stage="Pending", type="EC", title="Loading..."}) => {
         case "Pending":
             percentage = "25";
             break;
-        case "Completed":
+        case "Resolved":
             percentage = "100";
             break;
-        case "In Progress":
+        case "Review":
             percentage = "75";
             break;
         case "Rejected":
