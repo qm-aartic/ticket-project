@@ -102,7 +102,7 @@ const InputTicket = () => {
         setAllTickets(...originalTickets);
       });
     setTimeout(() => {
-      navigate("/");
+      navigate("/ticket-created");
     }, 100);
   };
 

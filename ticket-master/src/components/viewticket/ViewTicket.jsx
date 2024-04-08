@@ -63,7 +63,7 @@ const UpdateTicket = () => {
     axios
       .put(`http://localhost:3000/api/ticket/${params.id}`, updatedTicket)
       .catch((err) => setTicket(originalTicket));
-    navigate("/archive");
+    navigate("/tickets");
   };
 
   const openTicket = () => {

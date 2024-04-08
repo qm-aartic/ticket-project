@@ -31,7 +31,7 @@ function Tickets() {
         const { data } = await axios.get("http://localhost:3000/api/ticket");
         switch (loggedUser.role) {
             case "teaching-admin-staff":
-                setTickets(data.filter((ticket) => ticket.status !== "Archived" && ticket.title.toLowerCase().includes(search.toLowerCase())));
+                setTickets(data.filter((ticket) => ticket.status !== "Archived" && ticket.category !== "ec" && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 if (filter === "View Issues") {
                     setTickets(data.filter((ticket) => ticket.status !== "Archived" &&
                         (ticket.category === "service" || ticket.category === "Building Hazard" ||
@@ -40,7 +40,7 @@ function Tickets() {
                             || ticket.category === "technical" || ticket.category === "functional" || ticket.category === "accessibility")
                         && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 } else if (filter === "View EC") {
-                    setTickets(data.filter((ticket) => ticket.status !== "Archived" && ticket.category === "ec" && ticket.title.toLowerCase().includes(search.toLowerCase())));
+                    setTickets(data.filter((ticket) => ticket.status === "Archived" && ticket.category === null && ticket.title.toLowerCase().includes(search.toLowerCase())));
                 }
                 break;
             case "admin":
@@ -121,6 +121,7 @@ function Tickets() {
                     containerClassName={"join pagination self-center"}
                     activeClassName={"join-item btn-primary"}
                     pageClassName={"join-item btn btn-square page-item"}
+                    pageLinkClassName={"w-full h-full content-center"}
                     onPageChange={(event) => setPage(event.selected)}
                     breakLabel="..."
                     pageCount={Math.ceil(tickets.length / n)}
