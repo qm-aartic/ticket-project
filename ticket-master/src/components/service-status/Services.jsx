@@ -3,17 +3,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import ServiceCard from './ServiceCard';
-import initializeService from "../../../../npm-demo/functions/generateService";
 
 
 function Services() {
-
-    const navigate = useNavigate();
+    const [newServiceName, setNewServiceName] = useState('');
     const [services, setServices] = useState([]);
     const [loggedUser, setLoggedUser] = useState("");
 
     useEffect(() => {
-        initializeService(() => navigate("/services"));
         axios
             .get("http://localhost:3000/api/service")
             .then((response) => {
@@ -58,6 +55,24 @@ function Services() {
         }
     }
 
+
+
+const handleCreateService = async () => {
+    try {
+        const newService =
+        {
+            name: newServiceName,
+            status: true,
+            faults: 0
+        }
+        axios.post("http://localhost:3000/api/service", newService);
+        window.location.reload();
+    } catch (error) {
+        console.log("Error occured")
+    }
+    };
+    
+
     return (
         <section className="min-h-[80vh] py-16 xl:px-72 flex flex-col md:grid md:grid-cols-2 gap-16">
             <div className="flex flex-col gap-6">
@@ -83,6 +98,17 @@ function Services() {
                 </>
                 ))}
             </div>
+            {loggedUser != null && loggedUser.role === "admin" && (
+                <div className="flex flex-col gap-4">
+                    <input
+                        type="text"
+                        placeholder="Enter service name"
+                        value={newServiceName}
+                        onChange={(e) => setNewServiceName(e.target.value)}
+                    />
+                <button onClick={handleCreateService}>Create Service</button>
+                </div>
+                )}
         </section>
 
     );

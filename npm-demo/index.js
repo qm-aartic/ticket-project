@@ -5,6 +5,7 @@ const issues = require('./routes/issues');
 const ticket = require('./routes/ticket');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
+const service = require('./routes/service')
 const cors = require('cors');
 const app = express();
 
@@ -16,10 +17,11 @@ app.use('/api/issues',issues);
 app.use('/api/ticket',ticket);
 app.use('/api/users',users);
 app.use('/api/auth',auth);
+app.use('/api/service', service)
 
 
 // connection to MongoDB
-mongoose.connect('mongodb+srv://{USERNAME}:{PASSWORD}@cluster0.tdsacwm.mongodb.net/ticket')
+mongoose.connect('mongodb+srv://{username}:{password}@cluster0.xqbeiph.mongodb.net/ticket')
     .then(() => {console.log('connected to MongoDB...')})
     .catch(err => {console.log('could not connect to MongoDB...', err)});
 
