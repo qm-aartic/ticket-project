@@ -2,9 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {useNavigate, useParams} from 'react-router-dom';
 import axios from 'axios';
 import { jwtDecode } from 'jwt-decode';
-import { FaRegEdit } from "react-icons/fa";
+import { FaRegEdit, FaTrash } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
-
 
 const ViewUser = () => {
     const [loggedUser, setLoggedUser] = useState("");
@@ -17,12 +16,42 @@ const ViewUser = () => {
         if (!isUpdating) {
             const originalUser = { ...user };
             const { password, _id, __v, ...updatedUser } = originalUser;
-            //updatedUser.role = updatedUser.role.toLowerCase();
             console.log(updatedUser);
             axios
             .put(`http://localhost:3000/api/users/${params.id}`, updatedUser)
             .catch((err) => setUser(originalUser));
         }
+    }
+
+    const handleDelete = () => {
+        const originalUser = {...user};
+
+        //delete tickets created by user
+        var tickets = [];
+        console.log("getting tickets");
+        axios.get("http://localhost:3000/api/ticket")
+            .then((res) => {
+                tickets = res.data;
+                const filteredTickets = tickets.filter((ticket) => ticket.userId === params.id);
+                for (var i = 0; i < filteredTickets.length; i++) {
+                    axios.delete(`http://localhost:3000/api/ticket/${filteredTickets[i]._id}`)
+                        .catch((err) => console.log(err));
+                }
+            })
+            .catch((err) => {
+                console.log("error getting ticket");
+                console.log(err);
+            });
+
+        //delete user
+        console.log("deleting user");
+        axios.delete(`http://localhost:3000/api/users/${params.id}`)
+            .catch((err) => {
+                console.log(err);
+                setUser(originalUser);
+            });
+
+        navigate("/users");
     }
 
     const handleSubmit =
@@ -82,11 +111,32 @@ const ViewUser = () => {
                             />
                         </div>
                         <div className = "flex flex-row justify-between items-center">
-                            <button type = "submit" className="btn btn-primary text-white" onClick={() => setIsUpdating(update => !update)}> 
-                            {isUpdating ? <p className='flex gap-4 items-center'>Update <FaCheck size={18} /></p> : <p className='flex gap-10 items-center'>Edit <FaRegEdit size={18} /></p> }
-                             </button>
+                            <div className = "flex flex-row gap-3">
+                                <button type = "submit" className="btn btn-primary text-white" onClick={() => setIsUpdating(update => !update)}> 
+                                    {isUpdating ? <p className='flex gap-4 items-center'>Update <FaCheck size={18} /></p> : <p className='flex gap-10 items-center'>Edit <FaRegEdit size={18} /></p> }
+                                </button>
+                                <div className="btn btn-warning" onClick={() => document.getElementById('delete_modal').showModal()} disabled = {params.id === loggedUser._id /* User can't delete themselves */}>
+                                    Delete
+                                    <FaTrash />
+                                </div>
+                            </div>
                             <button className="btn btn-black btn-outline" onClick={() => navigate("/")}> Back </button>
                         </div>
+                        <dialog id="delete_modal" className="modal">
+                            <div className="modal-box">
+                                <h3 className="font-bold text-lg">Delete User</h3>
+                                <p className="py-4">This action cannot be undone! Are you sure you want to delete <span className="font-bold">{user.email}</span>?</p>
+                                <div className="modal-action">
+                                    <form method="dialog" className="flex gap-4">
+                                        {/* if there is a button in form, it will close the modal */}
+                                        <button className="btn btn-warning" onClick={() => handleDelete()}>
+                                            I'm Sure
+                                            <FaTrash /></button>
+                                        <button className="btn">Cancel</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </dialog>
                     </form>
                 </div>
             </div>
