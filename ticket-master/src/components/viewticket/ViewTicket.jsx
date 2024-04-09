@@ -94,9 +94,10 @@ const UpdateTicket = () => {
     const originalTicket = { ...ticket };
     const { fileName, date, _id, __v, ...updatedTicket } = originalTicket;
     
-    const serviceId = 'service_9re6h25';
-    const templateId = 'template_wv0j7d8';
-    const publicKey ='6sWoVJwPyHfozi86y';
+    const serviceId = 'service_sqqutnk';
+    // const serviceId = 'service_kz8tavg';
+    const templateId = 'template_hshcf1a';
+    const publicKey ='I15mYrE6RdaWyKyAb';
 
     try {
         const response = await axios.get(`http://localhost:3000/api/users/${updatedTicket.userId}`);
