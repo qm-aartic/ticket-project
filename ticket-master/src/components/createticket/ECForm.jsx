@@ -50,10 +50,10 @@ const InputTicket = () => {
   } = useForm({ resolver: zodResolver(schema) });
 
   // Start Drop Down Code Changes
-  const [departmentDropDownOptions, setDepartmentDropDownOptions] = useState(
-    [{ label: "Computer Science", value: "computer_science" },
-    { label: "Maths", value: "maths" }]
-  );
+  const [departmentDropDownOptions, setDepartmentDropDownOptions] = useState([
+    { label: "Computer Science", value: "computer_science" },
+    { label: "Maths", value: "maths" },
+  ]);
   const [moduleDropDownOptions, setModuleDropDownOptions] = useState([]);
 
   const handleDepartmentDropDownChange = (selectedValue) => {
@@ -107,116 +107,128 @@ const InputTicket = () => {
   };
 
   return (
-      <div className="flex justify-center items-center min-h-[70vh] bg-white">
-        <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100 p-10 flex flex-col gap-6">
-          <h3 className="card-title text-center">Report Lab Issue</h3> 
-          <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
-            <div>
+    <div className="flex justify-center items-center min-h-[70vh] bg-white">
+      <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100 p-10 flex flex-col gap-6">
+        <h3 className="card-title text-center">Report Lab Issue</h3>
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+          <div>
+            {/* TITLE */}
+            <label htmlFor="title" className="form-label">
+              Title
+            </label>
+            <input
+              id="title"
+              {...register("title")}
+              type="text"
+              className="form-control textarea textarea-bordered w-full"
+            />
+            {errors.title && (
+              <p className="text-danger text-red-700 font-bold mt-3">
+                {errors.title.message}
+              </p>
+            )}
+          </div>
 
-              {/* TITLE */}
-              <label htmlFor="title" className="form-label">
-                Title
-              </label>
-              <input
-                id="title"
-                {...register("title")}
-                type="text"
-                className="form-control textarea textarea-bordered w-full"
-              />
-              {errors.title && (
-                <p className="text-danger">{errors.title.message}</p>
-              )}
-            </div>
+          {/* DESCRIPTION */}
+          <div>
+            <label htmlFor="desc" className="form-label">
+              Description
+            </label>
+            <input
+              id="desc"
+              {...register("desc")}
+              type="text"
+              className="form-control textarea textarea-bordered w-full"
+            />
+            {errors.desc && (
+              <p className="text-danger text-red-700 font-bold mt-3">
+                {errors.desc.message}
+              </p>
+            )}
+          </div>
 
-            {/* DESCRIPTION */}
-            <div>
-              <label htmlFor="desc" className="form-label">
-                Description
-              </label>
-              <input
-                id="desc"
-                {...register("desc")}
-                type="text"
-                className="form-control textarea textarea-bordered w-full"
-              />
-              {errors.desc && (
-                <p className="text-danger">{errors.desc.message}</p>
-              )}
-            </div>
+          {/* DEPARTMENT */}
+          <div>
+            <label htmlFor="department" className="form-label">
+              Department
+            </label>
+            <select
+              id="department"
+              {...register("department")}
+              className="form-select select select-bordered w-full"
+              onChange={(e) => handleDepartmentDropDownChange(e.target.value)}
+            >
+              <option value="">Select...</option>
+              {departmentDropDownOptions.map((department) => (
+                <option key={department.value} value={department.value}>
+                  {department.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* DEPARTMENT */}
-            <div>
-              <label htmlFor="department" className="form-label">
-                Department
-              </label>
-              <select
-                id="department"
-                {...register("department")}
-                className="form-select select select-bordered w-full"
-                onChange={(e) => handleDepartmentDropDownChange(e.target.value)}
-              >
-                <option value="">Select...</option>
-                {departmentDropDownOptions.map((department) => (
-                  <option key={department.value} value={department.value}>
-                    {department.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* MODULE */}
+          <div>
+            <label htmlFor="module" className="form-label">
+              Module
+            </label>
+            <select
+              id="module"
+              {...register("module")}
+              className="form-select select select-bordered w-full"
+            >
+              <option value="">Select...</option>
+              {moduleDropDownOptions.map((module) => (
+                <option key={module.value} value={module.value}>
+                  {module.label}
+                </option>
+              ))}
+            </select>
+          </div>
 
-            {/* MODULE */}
-            <div>
-              <label htmlFor="module" className="form-label">
-                Module
-              </label>
-              <select
-                id="module"
-                {...register("module")}
-                className="form-select select select-bordered w-full"
-              >
-                <option value="">Select...</option>
-                {moduleDropDownOptions.map((module) => (
-                  <option key={module.value} value={module.value}>
-                    {module.label}
-                  </option>
-                ))}
-              </select>
-            </div>
+          {/* PRIORITY */}
+          <div>
+            <label htmlFor="priority" className="form-label">
+              Ticket Priority
+            </label>
+            <select
+              id="priority"
+              {...register("priority")}
+              className="form-select select select-bordered w-full"
+            >
+              <option value="default">Default</option>
+              <option value="high">High</option>
+            </select>
+          </div>
 
-            {/* PRIORITY */}
-            <div>
-              <label htmlFor="priority" className="form-label">
-                Ticket Priority
-              </label>
-              <select
-                id="priority"
-                {...register("priority")}
-                className="form-select select select-bordered w-full"
-              >
-                <option value="default">Default</option>
-                <option value="high">High</option>
-              </select>
-            </div>
+          {/* EVIDENCE */}
+          <div className="form-control">
+            <label htmlFor="fileName" className="label-text block pb-0.5 pl-1">
+              Attach evidence (optional)
+            </label>
+            <input
+              {...register("fileName")}
+              type="file"
+              className="file-input file-input-bordered file-input-md w-full max-w-xs"
+              accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+            />
+            <small className="text-gray-600">
+              Accepted file types: PDF, Word, JPEG, PNG.
+            </small>
+          </div>
 
-            {/* EVIDENCE */}
-            <div className="form-control">
-              <label htmlFor="fileName" className="label-text block pb-0.5 pl-1">Attach evidence (optional)</label>
-              <input {...register("fileName")} type="file" className="file-input file-input-bordered file-input-md w-full max-w-xs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-              <small className="text-gray-600">Accepted file types: PDF, Word, JPEG, PNG.</small>
-            </div>
-              
-            {/* STATUS [HIDDEN] */}
-            <input type="hidden" {...register("status", { value: "Pending" })} />
-            <input type="hidden" {...register("category", { value: "ec" })} />
+          {/* STATUS [HIDDEN] */}
+          <input type="hidden" {...register("status", { value: "Pending" })} />
+          <input type="hidden" {...register("category", { value: "ec" })} />
 
-            {/* SUBMIT BUTTON */}
-            <button className="btn btn-primary" type="submit">
-              Submit
-            </button>
-          </form>
-        </div>
-        </div>
-      );
+          {/* SUBMIT BUTTON */}
+          <button className="btn btn-primary" type="submit">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+  );
 };
 
-      export default InputTicket;
+export default InputTicket;

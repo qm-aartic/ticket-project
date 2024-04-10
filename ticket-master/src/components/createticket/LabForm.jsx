@@ -8,7 +8,9 @@ import { useNavigate } from "react-router-dom";
 
 const schema = z.object({
   title: z.string().min(5, { message: "Title must be at least 5 characters." }),
-  desc: z.string().min(15, { message: "Description must be at least 15 characters." }),
+  desc: z
+    .string()
+    .min(15, { message: "Description must be at least 15 characters." }),
   fileName: z.any().optional().default(""),
   category: z.string().optional(),
   department: z.string().optional(),
@@ -73,11 +75,10 @@ const InputTicket = () => {
       fileName: data?.fileName[0],
       status: data.status,
       reopenCount: 0,
-
     };
 
     console.log("new ticket", newTicket);
-    
+
     axios
       .post("http://localhost:3000/api/ticket", newTicket, {
         headers: { "Content-Type": "multipart/form-data" },
@@ -98,10 +99,14 @@ const InputTicket = () => {
     <>
       <div className="flex justify-center items-center min-h-[70vh] bg-white">
         <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100">
-          <h3 className="card-title text-center pt-7 pl-10">Report Lab Issue</h3>
+          <h3 className="card-title text-center pt-7 pl-10">
+            Report Lab Issue
+          </h3>
           <form className="card-body p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control">
-              <label htmlFor="title" className="label-text block pb-0.5 pl-1">Title</label>
+              <label htmlFor="title" className="label-text block pb-0.5 pl-1">
+                Title
+              </label>
               <input
                 id="title"
                 {...register("title")}
@@ -109,11 +114,15 @@ const InputTicket = () => {
                 className="textarea textarea-bordered w-full"
               />
               {errors.title && (
-                <p className="text-danger">{errors.title.message}</p>
+                <p className="text-danger  text-red-700 font-bold mt-3">
+                  {errors.title.message}
+                </p>
               )}
             </div>
             <div className="form-control">
-              <label htmlFor="desc" className="label-text block pb-0.5 pl-1">Description</label>
+              <label htmlFor="desc" className="label-text block pb-0.5 pl-1">
+                Description
+              </label>
               <textarea
                 id="desc"
                 {...register("desc")}
@@ -123,19 +132,28 @@ const InputTicket = () => {
                 required
               ></textarea>
               {errors.desc && (
-                <p className="text-danger">{errors.desc.message}</p>
+                <p className="text-danger  text-red-700 font-bold mt-3">
+                  {errors.desc.message}
+                </p>
               )}
             </div>
 
             <div className="mb-3">
-              <label htmlFor="category" className="label-text block pb-0.5 pl-1">Category</label>
+              <label
+                htmlFor="category"
+                className="label-text block pb-0.5 pl-1"
+              >
+                Category
+              </label>
               <select
                 id="category"
                 {...register("category")}
                 className="select select-bordered w-full"
                 onChange={(e) => handleCategoryDropDownChange(e.target.value)}
               >
-                <option value="" disabled>Select...</option>
+                <option value="" disabled>
+                  Select...
+                </option>
                 {categoryDropDownOptions.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -143,16 +161,41 @@ const InputTicket = () => {
                 ))}
               </select>
             </div>
-            
-            <input type="hidden" id="department" {...register("department", { value: "Lab Room" })} />
-            <input type="hidden" id="priority" {...register("priority", { value: "Default" })} />
-            <input type="hidden" {...register("status", { value: "Pending" })} />
+
+            <input
+              type="hidden"
+              id="department"
+              {...register("department", { value: "Lab Room" })}
+            />
+            <input
+              type="hidden"
+              id="priority"
+              {...register("priority", { value: "Default" })}
+            />
+            <input
+              type="hidden"
+              {...register("status", { value: "Pending" })}
+            />
             <div className="form-control">
-              <label htmlFor="fileName" className="label-text block pb-0.5 pl-1">Attach evidence (optional)</label>
-              <input {...register("fileName")} type="file" className="file-input file-input-bordered file-input-md w-full max-w-xs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" />
-              <small className="text-gray-600">Accepted file types: PDF, Word, JPEG, PNG.</small>
+              <label
+                htmlFor="fileName"
+                className="label-text block pb-0.5 pl-1"
+              >
+                Attach evidence (optional)
+              </label>
+              <input
+                {...register("fileName")}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full max-w-xs"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              />
+              <small className="text-gray-600">
+                Accepted file types: PDF, Word, JPEG, PNG.
+              </small>
             </div>
-            <button type="submit" className="btn btn-primary mt-4 text-white">Submit</button>
+            <button type="submit" className="btn btn-primary mt-4 text-white">
+              Submit
+            </button>
           </form>
         </div>
       </div>

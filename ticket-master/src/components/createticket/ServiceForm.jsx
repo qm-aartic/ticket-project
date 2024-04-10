@@ -58,7 +58,6 @@ const InputTicket = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedService, setSelectedService] = useState("");
 
-
   const categoryDropDownOptions = [
     { label: "Technical", value: "technical" },
     { label: "Functional", value: "functional" },
@@ -70,17 +69,15 @@ const InputTicket = () => {
     { label: "QM Plus", value: "qmplus" },
     { label: "MySIS", value: "mysis" },
     { label: "QM App", value: "qmapp" },
-    { label: "Other", value: "other"}
+    { label: "Other", value: "other" },
   ];
 
-
   const handleCategoryDropDownChange = (selectedValue) => {
-      setSelectedCategory(selectedValue);
+    setSelectedCategory(selectedValue);
   };
 
   const handleSelectedService = (selectedValue) => {
     setSelectedService(selectedValue);
-    
   };
 
   // End Drop Down Code Changes
@@ -99,7 +96,6 @@ const InputTicket = () => {
       fileName: data?.fileName[0],
       status: data.status,
       reopenCount: 0,
-
     };
 
     console.log("new ticket", newTicket);
@@ -123,113 +119,160 @@ const InputTicket = () => {
     }, 100);
   };
 
-    // handle category change
-    const handleCategoryChange = (event) => {
-        const selectedCategory = event.target.value;
-        setCategory(selectedCategory);
-    };
+  // handle category change
+  const handleCategoryChange = (event) => {
+    const selectedCategory = event.target.value;
+    setCategory(selectedCategory);
+  };
 
-    // handle service change
-    const handleServiceChange = (event) => {
-        const selectedService = event.target.value;
-        setService(selectedService);
-    };
+  // handle service change
+  const handleServiceChange = (event) => {
+    const selectedService = event.target.value;
+    setService(selectedService);
+  };
 
-    // handle summary change
-    const handleSummaryChange = (event) => {
-        // summary input max 5000 characters
-        if (event.target.value.length <= 5000) {
-            setSummary(event.target.value);
-        }
-    };
+  // handle summary change
+  const handleSummaryChange = (event) => {
+    // summary input max 5000 characters
+    if (event.target.value.length <= 5000) {
+      setSummary(event.target.value);
+    }
+  };
 
-    // handle file upload change
-    const handleFileChange = (event) => {
-        // only allow a single file to be uploaded
-        setFile(event.target.files[0]);
-    };
+  // handle file upload change
+  const handleFileChange = (event) => {
+    // only allow a single file to be uploaded
+    setFile(event.target.files[0]);
+  };
 
   return (
     <>
       <div className="flex justify-center items-center min-h-[70vh] bg-white">
         <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100">
-            <h3 className="card-title text-center pt-7 pl-10">Report Service Issue</h3>
-            {/* when submitting form, call onSubmit function to process the form */}
-            <form className="card-body p-8" onSubmit={handleSubmit(onSubmit)}>
+          <h3 className="card-title text-center pt-7 pl-10">
+            Report Service Issue
+          </h3>
+          {/* when submitting form, call onSubmit function to process the form */}
+          <form className="card-body p-8" onSubmit={handleSubmit(onSubmit)}>
             <div className="form-control">
-                     {/* enter title of lab issue */}
-                     <label htmlForm="title" className="label-text block pb-0.5 pl-1">Title</label>
-                     {/* <span className="label-text block pb-0.5 pl-1"> Title: </span> */}
-                     <input
-                        id="title"
-                        {...register("title")}
-                        type="text"
-                        className="textarea textarea-bordered w-full"
-                        />
-                        {errors.title && (
-                        <p className="text-danger">{errors.title.message}</p>
-                        )}
-                 </div>            
-                 <div className="form-control">
-                     <label htmlFor="desc" className="label-text block pb-0.5 pl-1"> Description </label>
-                     <textarea
-                        id="desc"
-                        {...register("desc")}
-                        className="textarea textarea-bordered w-full"
-                        placeholder="Description..."
-                        maxLength={5000}
-                        required
-                    ></textarea>
-                    {errors.desc && (
-                        <p className="text-danger">{errors.desc.message}</p>
-                    )}
-                </div>
-                <div className="form-control">
-            <label htmlFor="department"className="label-text block pb-0.5 pl-1"> Service </label>
-            <select
-              id="department"
-              {...register("department")}
-              className="select select-bordered w-full"
-              onChange={(e) => handleSelectedService(e.target.value)}
-            >
-              <option value="">Select...</option>
-              {serviceDropDownOptions.map((department) => (
-                <option key={department.value} value={department.value}>
-                  {department.label}
+              {/* enter title of lab issue */}
+              <label htmlForm="title" className="label-text block pb-0.5 pl-1">
+                Title
+              </label>
+              {/* <span className="label-text block pb-0.5 pl-1"> Title: </span> */}
+              <input
+                id="title"
+                {...register("title")}
+                type="text"
+                className="textarea textarea-bordered w-full"
+              />
+              {errors.title && (
+                <p className="text-danger  text-red-700 font-bold mt-3">
+                  {errors.title.message}
+                </p>
+              )}
+            </div>
+            <div className="form-control">
+              <label htmlFor="desc" className="label-text block pb-0.5 pl-1">
+                {" "}
+                Description{" "}
+              </label>
+              <textarea
+                id="desc"
+                {...register("desc")}
+                className="textarea textarea-bordered w-full"
+                placeholder="Description..."
+                maxLength={5000}
+                required
+              ></textarea>
+              {errors.desc && (
+                <p className="text-danger  text-red-700 font-bold mt-3">
+                  {errors.desc.message}
+                </p>
+              )}
+            </div>
+            <div className="form-control">
+              <label
+                htmlFor="department"
+                className="label-text block pb-0.5 pl-1"
+              >
+                {" "}
+                Service{" "}
+              </label>
+              <select
+                id="department"
+                {...register("department")}
+                className="select select-bordered w-full"
+                onChange={(e) => handleSelectedService(e.target.value)}
+              >
+                <option value="">Select...</option>
+                {serviceDropDownOptions.map((department) => (
+                  <option key={department.value} value={department.value}>
+                    {department.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className="form-control">
+              <label
+                htmlFor="category"
+                className="label-text block pb-0.5 pl-1"
+              >
+                {" "}
+                Category{" "}
+              </label>
+              <select
+                id="category"
+                {...register("category")}
+                className="select select-bordered w-full"
+                onChange={(e) => handleCategoryDropDownChange(e.target.value)}
+              >
+                <option value="" disabled>
+                  Select...
                 </option>
-              ))}
-            </select>
-          </div>
-          <div className="form-control">
-            <label htmlFor="category" className="label-text block pb-0.5 pl-1"> Category </label>
-            <select
-              id="category"
-              {...register("category")}
-              className="select select-bordered w-full"
-              onChange={(e) => handleCategoryDropDownChange(e.target.value)}
-            >
-              <option value="" disabled>Select...</option>
-              {categoryDropDownOptions.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </div>
-          {/* set priority to Default */}
-          <input type="hidden" id="priority" {...register("priority", { value: "default" })} />
-          {/* set status to pending */}
-          <input type="hidden" {...register("status", { value: "Pending" })} />
-          <div className="form-control">
+                {categoryDropDownOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+            {/* set priority to Default */}
+            <input
+              type="hidden"
+              id="priority"
+              {...register("priority", { value: "default" })}
+            />
+            {/* set status to pending */}
+            <input
+              type="hidden"
+              {...register("status", { value: "Pending" })}
+            />
+            <div className="form-control">
               {/* user can attach evidence if needed */}
-              <label htmlFor="fileName" className="label-text block pb-0.5 pl-1"> Attach evidence (optional): </label>
-              <input {...register("fileName")} type="file" className="file-input file-input-bordered file-input-md w-full max-w-xs" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"  />
-              <small className="text-gray-600">Accepted file types: PDF, Word, JPEG, PNG.</small>
-          </div>
-          {/* Submit button */}
-          <button type="submit" className="btn btn-primary mt-4 text-white">Submit</button>
-        </form>
-      </div>
+              <label
+                htmlFor="fileName"
+                className="label-text block pb-0.5 pl-1"
+              >
+                {" "}
+                Attach evidence (optional):{" "}
+              </label>
+              <input
+                {...register("fileName")}
+                type="file"
+                className="file-input file-input-bordered file-input-md w-full max-w-xs"
+                accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
+              />
+              <small className="text-gray-600">
+                Accepted file types: PDF, Word, JPEG, PNG.
+              </small>
+            </div>
+            {/* Submit button */}
+            <button type="submit" className="btn btn-primary mt-4 text-white">
+              Submit
+            </button>
+          </form>
+        </div>
       </div>
     </>
   );

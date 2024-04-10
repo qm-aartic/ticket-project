@@ -21,7 +21,7 @@ app.use('/api/service', service)
 
 
 // connection to MongoDB
-mongoose.connect('mongodb+srv://{username}:{password}@cluster0.xqbeiph.mongodb.net/ticket')
+mongoose.connect('mongodb://localhost:27017')
     .then(() => {console.log('connected to MongoDB...')})
     .catch(err => {console.log('could not connect to MongoDB...', err)});
 
