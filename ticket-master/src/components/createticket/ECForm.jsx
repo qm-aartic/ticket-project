@@ -13,8 +13,8 @@ const schema = z.object({
     .min(15, { message: "Description must be atleast 15 characters." }),
   fileName: z.any().optional().default(""),
   category: z.string().optional(),
-  department: z.string().optional(),
-  module: z.string().optional(),
+  department: z.string(),
+  module: z.string(),
   priority: z.any().optional(),
   status: z.any().optional().default("Pending"),
 });
@@ -109,7 +109,7 @@ const InputTicket = () => {
   return (
     <div className="flex justify-center items-center min-h-[70vh] bg-white">
       <div className="card shrink-0 w-full max-w-screen-lg shadow-2xl bg-base-100 p-10 flex flex-col gap-6">
-        <h3 className="card-title text-center">Report Lab Issue</h3>
+        <h3 className="card-title text-center">Report EC</h3>
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
           <div>
             {/* TITLE */}

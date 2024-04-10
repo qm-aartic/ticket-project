@@ -131,8 +131,8 @@ const UpdateTicket = () => {
       <div className="min-h-[88vh] bg-base-200 hero px-64">
         <div className="bg-white card p-10 relative min-w-full">
           <form
-            onSubmit={handleSubmit(onUpdate)}
-            // onSubmit={handleSubmit(onUpdate, sendEmail)}
+            // onSubmit={handleSubmit(onUpdate)}
+            onSubmit={handleSubmit(onUpdate, sendEmail)}
             className="flex flex-col gap-10 max-w-full"
           >
             <div className="mb-3">
